@@ -1,0 +1,1500 @@
+\documentclass[12pt]{report}
+
+\usepackage[toc,page]{appendix}
+\usepackage{pdfpages}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[top=1in, left = 1.25in, right=1in, bottom=1in]{geometry}
+\geometry{a4paper}
+
+\usepackage[english]{babel}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+ 
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{\rightmark}
+\rfoot{\thepage}
+\cfoot{Quantum Computing and Quantum Error Correcting Codes}
+
+\title{Summer Training Report \\on \\Quantum Computing}
+\author{Anshula Nema}
+\date{}
+
+\def\F{{\mathbb F}}
+\def\R{{\mathbb R}}
+\def\C{{\mathbb C}}
+\def\W{{\mathbb W}}
+\def\V{{ \mathbb V}}
+\begin{document}
+\newpage %TITLE PAGE BEGINS
+\begin{center}
+\thispagestyle{empty} 
+{\huge Summer Training Report}\\
+{\large on}\\
+{\Large Quantum Computing and Quantum Error Correcting Codes}
+\\ \vspace{1cm}
+{\Large Submitted by}\\ 
+{\Large Anshula Nema}\\
+%\vspace{1cm}
+%{\Large Training Period} \\
+%{\Large 10/06/2019 -- 27/07/2019}\\
+\vspace{1cm}
+{\Large Under Guidance of} \\
+{\Large Hetal G Borisagar, Sc. `E',}\\
+{\large at}\\
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.15\textwidth]{drdo}
+\end{figure}
+{\Large Scientific Analysis Group, \\Metcalfe House, Delhi-110054}
+
+\vspace{1cm}
+{\Large Training Period} \\
+{\Large 10/06/2019 -- 27/07/2019}\\
+\end{center} 
+
+%TITLE PAGE ENDS HERE
+\newpage
+%ACKNOWLEDGEMENT
+\chapter*{Acknowledgement} 
+It would not have been possible without the kind support and help of many individuals and the organization. I would like to extend my sincere thanks to all of them.\\ \\
+I am highly indebted to SAG, DRDO for their guidance and constant supervision as well as for providing necessary information regarding the project \& also for their support in completing the project. I would like to express my gratitude towards my parents \& member of SAG, DRDO for their kind co-operation and encouragement which helped me in completion of this training.\\
+I would like to express my special gratitude and thanks to Ms. Hetal G Borisagar for giving me such attention and time.
+%ABSTRACT
+\chapter*{Abstract}
+ In secure communication like Internet banking, on-line transactions etc public key cryptography plays an important role. At present we are using classical computer based on principles of classical physics. All the protocols running on these computers for present day public key cryptography are using RSA  or DLP or ECDLP public key crypto-algorithms. These algorithms are based on two hard problems prime factorization and discrete log problem. Since these problems will  be solved in polynomial time using Shor's algorithm if efficient Quantum computing power is available. So learning of quantum computing is very important. The main objective of this project is to learn basics of \textbf{Quantum Computing} and \textbf{Quantum Error Correction Codes}.
+ 
+
+In quantum computing all the operations are through some linear transformation or the corresponding matrices. So to learn quantum computing one has to first know linear algebra. The first section covers the basics of Linear Algebra and Quantum Computing, in which basics of vector algebra, algebra of matrices, quantum gates, quantum circuits etcv are covered. The next section covers the Quantum Algorithms, such as Duetscha-Jozsa Algorithm, Shor's Algorithm, etc. with their python code, circuits as well as mathematical implementations.  
+In quantum algorithms are probabilistic their implementation requires error correction at each stage. So error correction has to be learned simultaneously with quantum algorithms. Section four is dedicated to quantum error codes. In this section comparison of classical and quantum error correcting codes and their need, some of the basic quantum error correction codes, like, Three Qubit Bit Flip Code, Three Qubit Phase Flip Code, Shor Code are described along with their mathematical explanation and circuits. 
+
+IBM is providing prototype quantum devices and simulators on-line. I have simulated the quantum circuits for all the quantum algorithms and quantum error correcting codes on IBM  via., Qiskit framework, which can be found in the Appendix A along with Python Programs.
+%CONTENTS
+\tableofcontents
+\listoffigures
+\listoftables
+%CHAPTER -1
+\newpage
+\chapter{Introduction}
+\section{About DRDO}
+The Defence Research and Development Organisation (DRDO) is an agency of the Government of India, charged with the military's research and development, headquartered in New Delhi, India. It was formed in $1958$ by the merger of the Technical Development Establishment and the Directorate of Technical Development and Production of the Indian Ordnance Factories with the Defence Science Organisation. It is under the administrative control of the Ministry of Defence, Government of India.\\
+\\
+With a network of $52$ laboratories, which are engaged in developing defence technologies covering various fields, like aeronautics, armaments, electronics, land combat engineering, life sciences, materials, missiles, and naval systems, DRDO is India's largest and most diverse research organisation. The organisation includes around $5,000$ scientists belonging to the Defence Research \& Development Service (DRDS) and about 25,000 other scientific, technical and supporting personnel.  \\ 
+\\
+DRDO started its first major project in surface-to-air missiles (SAM) known as Project Indigo in $1960$s. Indigo was discontinued in later years without achieving full success. Project Indigo led to Project Devil, along with Project Valiant, to develop short-range SAM and ICBM in the $1970$s. Project Devil itself led to the later development of the Prithvi missile under the Integrated Guided Missile Development Programme (IGMDP) in the $1980$s. IGMDP was an Indian Ministry of Defence programme between the early $1980$s and $2007$ for the development of a comprehensive range of missiles, including the Agni missile, Prithvi ballistic missile, Akash missile, Trishul missile and Nag Missile. In $2010$, then defence minister A. K. Antony ordered the restructuring of the DRDO to give 'a major boost to defence research in the country and to ensure effective participation of the private sector in defence technology'. The key measures to make DRDO effective in its functioning include the establishment of a Defence Technology Commission with the defence minister as its chairman. The programmes which were largely managed by DRDO have seen considerable success with many of the systems seeing rapid deployment as well as yielding significant technological benefits. DRDO has achieved many successes since its establishment in developing other major systems and critical technologies such as aircraft avionics, UAVs, small arms, artillery systems, EW Systems, tanks and armoured vehicles, sonar systems, command and control systems and missile systems.\\  \\
+\textbf{Vision}\\
+Make India prosperous by establishing world class science and technology base and provide our Defence Services decisive edge by equipping them with internationally competitive systems and solutions. \\ \\
+\textbf{Mission}
+\begin{enumerate}
+\item Design, develop and lead to production state-of-the-art sensors, weapon systems, platforms and allied equipment for our Defence Services.
+\item Provide technological solutions to the Services to optimise combat effectiveness and to promote well-being of the troops.
+\item Develop infrastructure and committed quality manpower and build strong indigenous technology base.
+\end{enumerate}
+\section{About SAG}
+Scientific Analysis Group (SAG) is one of the premier agencies in the country working in the area of Cryptology, Information Security and Cyber Security. The main charter of SAG is development of tools and techniques for IT and Communication System. \\ \\
+\textbf{History of the Lab:}
+\\\\It was established in $1963$ it functioned as a Directorate of R\&D HQRs till $1970$ under the direct control of CC R\&D. It was a Mathematics oriented lab till $1975$. Charter expanded in $1981$ to include Communication product analysis. Customer base includes services as well as GoI agencies. 
+\\
+\\ \textbf{Core Competencies of the Lab:} \\
+\\SAG has scientists working mainly in three streams-Mathematics, Electronics \& Communications and Computer Science. It has developed competence in the following areas:
+\begin{enumerate}
+\item Algebra - Boolean Algebra, Finite Fields and Binary Sequences
+\item Pattern Recognition, Clustering and Soft Computing/li>
+\item Signal Processing
+\item High Performance Computing
+\item Information Security
+\end{enumerate}
+\textbf{The core application areas are:} 
+\begin{enumerate}
+\item Designing and Analysis of Encryption Schemes and Hash functions
+\item Communication Protocols and Signal Analysis
+\item Network and Cyber Security
+\item Malware Analysis
+\end{enumerate}
+\textbf{MISSION}
+\begin{enumerate}
+\item To develop tools and techniques based on contemporary Mathematics, Computer Science and Electronics \& Communication for Analysis of Security and IT products.
+\item To build generalized as well as domain/system specific analytical algorithms and tools.
+\item To establish state-of-art facilities for electronic probing, communication signal \& protocol analysis.
+\end{enumerate}
+%CHAPTER-2
+\newpage
+\chapter{Prerequisites}
+\section{Basics of Linear Algebra}
+\subsection{Basics of Vector Space}
+\newtheorem{thm}{Theorem}[chapter]
+
+\newtheorem{defn}[thm]{Definition}
+\begin{defn}
+\textbf{Vector Space} \\ 
+A vector space (or linear space) over a field $\F$ consists of the following: 
+\begin{enumerate}
+	\item A field $\F$ of scalars;
+	\item A set $\V$ of objects, called vectors;
+	\item A rule (or operation), called vector addition, which associates with each pair of vectors $\alpha$,$\beta$ in  $\V$ a vector $\alpha+\beta$ in  $\V$, called the sum of $\alpha$ and $\beta$, in such a way that
+	\begin{enumerate}
+	\item Addition is commutative $\alpha+\beta = \beta+ \alpha$;
+	\item Addition is associative $\alpha+(\beta+\gamma)=(\alpha+\beta)+\gamma$; 
+	\item There is a unique vector 0 in  $\V$, called the zero vector, such that $\alpha+0=\alpha$ for all $\alpha$ in  $\V$;
+	\item For each vector $\alpha$ in $\V$ there is a unique vector - $\alpha$ in  $\V$ such that $\alpha+(-\alpha)=0$;
+	\end{enumerate}
+	\item A rule (or operation), called scalar multiplication, which associates with each scalar c in F and vector $\alpha$ in  $\V$ a vector c$\alpha$ in  $\V$, called the product of c and $\alpha$, in such a way that
+	\begin{enumerate}
+	\item $I\alpha = \alpha$ for every $\alpha$ in  $\V$;
+	\item $(c_1c_2)\alpha = c_1(c_2\alpha)$;
+	\item $c(\alpha+\beta)= c\alpha+c\beta$;
+	\item $(c_1+c_2)\alpha = c_1\alpha + c_2\alpha$;
+	\end{enumerate}
+\end{enumerate}
+\end{defn}
+Example, $\R^2 = \{(a_1, a_2) | a_1\,, a_2\, \epsilon \,\R\}$ is two dimensional space.
+
+NOTE: If $\F= \R$ then $\V$ is called real vector space and if $\F=\C$ then it is called Complex vector space.
+\begin{defn}
+\textbf{Subspace}\\
+Let  $\V$ be a vector space over the field F. A subspace of  $\V$ is a subset $\W$ of  $\V$ which is itself a vector space over F with the operations of vector addition and scalar multiplication on  $\V$.
+\end{defn}
+Example, Let $V = \R^3 = \{(a, b, c) | a, b, c \,\epsilon\, \R\}$ then, $U = \{(a, b, 0) | a, b \,\epsilon\, \R\}$ is a subspace of  $\V$.
+\begin{defn}
+\textbf{Linear Independence and Dependence}\\
+Let  $\V$ be a vector space over  $\F$. A subset $S=\{\alpha_1, \alpha_2, . . . \alpha_n\}$ of $\V$ is said to be linearly dependent (or simply, dependent) if there exist scalars $c_1, c_2, . . . , c_n$ in $\F$, not all of which are $0$, such that
+\begin{equation}
+c_1\alpha_1+c_2\alpha_2+c_3\alpha_3+...+c_n\alpha_n=0
+\end{equation}
+A set which is not linearly dependent is called linearly independent. 
+\end{defn}
+Example, \\Consider the vectors $u=(2,-1,1)$, $v=(3,-4,-2)$, and $w=(5,-10,-8)$ from vector space $\R^3$ over $\R$. 
+Let $c_1, c_2,\text{and }c_3 $ are the scalars from $\R$ such that, 
+$$ c_1u+c_2v+c_3w=0 $$ 
+then 
+
+\begin{displaymath}
+\begin{matrix}
+2c_1+3c_2+5c_3&=&0\\
+-c_1+-4c_2-10c_3&=&0\\
+c_1-2c_2-8c_3&=&0\\
+\end{matrix}
+\end{displaymath}
+the above system of linear equation has infinite solutions as determinant of $
+\begin{bmatrix} 2&3&5\\-1&-4&-10\\1&-2&-8 \end{bmatrix}$ is zero.
+
+Therefore, vectors $u,v,\text{and} w $ are linearly dependent. 
+One of the values for which $u,v,\text{and} w $  are linearly dependent is $c_1=2, c_2=-3,\text{and }c_3=1 $ that is $w=-2u+3v$.
+
+
+The vectors $\epsilon_1=(1,0,0)$, $\epsilon_2=(0,1,0)$, $\epsilon_3=(0,0,1)$ are linearly independent because the determinant of $
+\begin{bmatrix} 1&0&0\\0&1&0\\0&0&1 \end{bmatrix}$ is not equal to zero.
+\begin{defn}
+\textbf{Linear Span}\\
+If $S = \{w_1, w_2, . . ., w_r \}$ is a nonempty set of vectors in a vector space  $\V$ , then the subspace $\W$ of  $\V$ that consists of all possible linear combinations of the vectors in $S$ is called the subspace of V generated by $S$, and we say that the vectors $w_1, w_2, . . ., w_r$ span $\W$. We denote this subspace as
+\begin{equation}
+\begin{split}
+\W &= span\{ w_1, w_2, . . . , w_r \}\\
+&= span(S)
+\end{split}
+\end{equation}
+\end{defn}
+\begin{defn}
+\textbf{Basis}\\
+Let $\V$ be a vector space. A basis for $\V$ is a linearly independent set of vectors in $\V$ which spans the space $\V$. 
+\end{defn}
+
+\begin{defn}
+\textbf{Standard Basis}\\
+Let $\F^n$ be a vector space over field $\F$   and let $S$ be the subset consisting of the vectors $\epsilon_1,$ $\epsilon_2$, ..., $\epsilon_n$ such that
+\begin{equation*}
+\epsilon_1=(1,0,0,...,0), \text{ }\epsilon_2=(0,1,0,...,0),\text{ },..., \text{ }\epsilon_n=(0,0,0,...,1)
+\end{equation*}
+then $S$ is linearly independent and it spans $\F^n$ and $S$ is called standard basis.
+
+Every vector of a vector space can be expressed as linear combination of basis elements. So here in this case, every vector of $\F^n$ can be expressed as linear combination of $\epsilon_i, \, i=1,2,\cdots,n$. 
+
+That is for every vector$\alpha \in \F^n$ there exists $x_1,x_2,x_3,...,x_n$  scalers in $\F$ such that  $\alpha = x_1\epsilon_1+x_2\epsilon_2+...+x_n\epsilon_n.$ 
+Vector $\alpha$ are also represented as 
+\begin{equation}
+\alpha = (x_1,x_2,...,x_n).
+\end{equation}
+\end{defn}
+\begin{defn}
+\textbf{Dimension of a Vector Space}\\
+Dimension of vector space $V=$ number of vectors in a basis set of $V$.
+
+ 
+\begin{enumerate}
+	\item Any subset of $V$ which contains more than $n$ vectors is linearly dependent; 
+	\item No subset of $V$ which contains fewer than $n$ vectors can span $V$.
+	\item The space $V$ is finite dimensional if it has a finite basis.
+\end{enumerate}
+
+\end{defn}
+\begin{defn}
+\textbf{Inner Product}\\
+An inner product on a real vector space $\V$  is a function that associates $\langle u, v\rangle \in \V\times \V$ to a real number in such a way that the following axioms are satisfied.
+
+For all vectors $u, v, \text{and}\, w \in \V$ and all scalars $k\in \R$: 
+\begin{enumerate}
+\item $\langle v,v\rangle \ge 0$ and $\langle v,v\rangle = 0 $ if and only if $v= 0$ [Positivity axiom] 
+\item $\langle u,v\rangle = \langle v,u\rangle $, [Symmetry axiom] 
+\item $\langle u+v,w\rangle = \langle u,w\rangle + \langle v,w\rangle $, [Additivity axiom]
+\item $\langle ku,v\rangle = k\langle v,u\rangle $, [Homogeneity axiom]
+\end{enumerate}
+A real vector space with an inner product is called a \textbf{real inner product space}.\\
+Because the axioms for a real inner product space are based on properties of the dot product, these inner product space axioms will be satisfied automatically if we define the inner product of two vectors $u \text{and} v \in R^n$ to be
+\begin{equation}
+\langle u,v\rangle = u\cdot v = u_1v_1 + u_2v_2 + ... +u_nv_n 
+\end{equation}
+If $\V=\C^n$ is vector space over $\C$ and $u = (u_1, u_2, . . . , u_n),v = (v_1, v_2, . . . , v_n) \in \C^n$  then \textbf{complex inner product} is defined as,
+\begin{equation}
+\langle u,v\rangle = u\cdot v = u_1\overline{v_1} + u_2\overline{v_2} + ... +u_n\overline{v_n} 
+\end{equation}
+\end{defn}
+Example,
+for the vectors $u = (1 + i, i, 3 - i)$ and $v = (1 + i, 2, 4i)$,\\
+$u \cdot v = (1 + i)(1 - i) + 2i + (3 - i)(-4i) = -2 - 10i$
+
+\subsection{Basics of Matrices}
+\begin{defn}
+\textbf{Matrix}\\
+A matrix $A_{m\times n}=[a_{ij}]\, \text{where } i=1,2,\cdots,m \text{ and }  j=1,2,\cdots,n$ of order $m\times n$ is a rectangular array of numbers or symbols $a_{ij}$ with $m$ rows and $n$ columns. The numbers/symbols in the array are called the entries in the matrix. If the entries are coming from field $\F$ then it called matrix over the field $\F$
+\[
+\begin{bmatrix}
+1 &2\\
+3 & 0\\
+-1&4
+\end{bmatrix}
+,
+\begin{bmatrix}
+2 & 1& 0 & -3
+\end{bmatrix}
+,
+\begin{bmatrix}
+\exp &\pi&-\sqrt{2}\\
+0 & \frac{1}{2}&1\\
+0&0& 0
+\end{bmatrix}
+,
+\begin{bmatrix}
+1\\
+3 
+\end{bmatrix}
+,
+\begin{bmatrix}
+4
+\end{bmatrix}
+\]
+\end{defn}
+\begin{defn}
+\textbf{Matrix Addition}\\
+The sum of two matrices $A_{m\times n}=[a_{ij}]$ and $B_{m\times n}=[b_{ij}]$ over a field $\F$ will be a matrix $C_{m\times n}=[c_{ij}]$ over $\F$ such that :$$C=[c_{ij}]=[a_{ij}+b_{ij}]$$
+Here, $i=1,2,\cdots,m \text{ and }  j=1,2,\cdots,n$
+%\begin{equation}
+%\begin{split}
+%A+B &= \begin{bmatrix}a_{11}& a_{12}&...&a_{1n}\\a_{21}& a_{22}&...&a_{2n}\\. & . &...&.\\. & . &...&.\\. & . &...&.\\a_{n1}& a_{n2}&...&a_{nn}\end{bmatrix} + \begin{bmatrix}b_{11}& b_{12}&...&b_{1n}\\b_{21}& b_{22}&...&b_{2n}\\. & . &...&.\\. & . &...&.\\. & . &...&.\\b_{n1}&b_{n2}&...&b_{nn}\end{bmatrix}\\
+%& = \begin{bmatrix}a_{11}+b_{11}& a_{12}+b_{12}&...&a_{1n}+b_{1n}\\a_{21}+b_{21}& a_{22}+b_{22}&...&a_{2n}+b_{2n}\\. & . &...&.\\. & . &...&.\\. & . &...&.\\a_{n1}+b_{n1}& a_{n2}+b_{n2}&...&a_{nn}+b_{nn}\end{bmatrix}
+%\end{split}
+%\end{equation}
+\end{defn}
+\begin{defn}
+\textbf{Matrix Multiplication}\\
+If $A_{m\times n} =[a_{ik}]_{m\times n}$ and $B_{n\times p}=[b_{kj}]_{n\times p}$ matrices,
+then $$C_{m\times p} =A_{m\times n}\times B_{n\times p}=
+c_{ij} =\sum _{k=1}^{m}a_{ik}b_{kj}, \,i = 1, ..., n \text{ and } j = 1, ..., p$$
+%\begin{equation*}
+%A = \begin{bmatrix}a_{11}& a_{12}&...&a_{1m}\\a_{21}& a_{22}&...&a_{2m}\\. & . &...&.\\. & . &...&.\\. & . &...&.\\a_{n1}& a_{n2}&...&a_{nm}\end{bmatrix} \text{ B = } \begin{bmatrix}b_{11}& b_{12}&...&b_{1p}\\b_{21}& b_{22}&...&b_{2p}\\. & . &...&.\\. & . &...&.\\. & . &...&.\\b_{m1}&b_{m2}&...&b_{mp}\end{bmatrix}
+%\end{equation*}
+%the matrix product C = AB (denoted without multiplication signs or dots) is defined to be the $n \times p$ matrix
+%\begin{equation*}
+%C = \begin{bmatrix}c_{11}& c_{12}&...&c_{1p}\\c_{21}& c_{22}&...&c_{2p}\\. & . &...&.\\. & . &...&.\\. & . &...&.\\c_{n1}& c_{n2}&...&c_{np}\end{bmatrix} 
+%\end{equation*}
+%such that $c_{ij} =a_{i1}b_{1j}+\cdots +a_{im}b_{mj}=\sum _{k=1}^{m}a_{ik}b_{kj}$, for i = 1, ..., n and j = 1, ..., p.
+\end{defn}
+\begin{defn}
+\textbf{Transpose of a Matrix}\\
+A matrix that results by interchanging the rows and columns of a matrix $A$ is defined as the transpose of $A$and is denoted by $A’$ or by $A^T$. Thus, if $A$ is of order $m \times n$, its transpose $A’$ will be of order  $n \times m$. Mathematically, $(A^T )_{ij} = (A)_{ji}$.
+\end{defn}
+Example, \begin{equation*}
+A = \begin{bmatrix}
+2&3&1\\
+-1&5&3
+\end{bmatrix}
+\text{then } A' = \begin{bmatrix}
+2&-1\\
+3&5\\
+1&3
+\end{bmatrix}
+\end{equation*}
+\begin{defn}
+	\textbf{Transpose conjugate of a Matrix}\\
+	A matrix that results by taking transpose and then taking conjugate of each entry of a matrix $A$ is defined as the transpose conjugate of $A$and is denoted by $A*$. Thus, if $A$ is of order $m \times n$, its transpose conjugate $A^*$ will be of order  $n \times m$. Mathematically, $(A^* ) = (\bar{A})^T$.
+\end{defn}
+Example, \begin{equation*}
+A = \begin{bmatrix}
+2&3&i\\
+-1+2i&5&3
+\end{bmatrix}
+\text{then } A^* = \begin{bmatrix}
+2&-1-2i\\
+3&5\\
+-i&3
+\end{bmatrix}
+\end{equation*}
+\begin{defn}
+\textbf{Eigenvectors and Eigenvalues}\\
+Let $\V$ be a vector  space over $\F$ and $A$ is an $n \times n$ matrix over a field $\F$. A nonzero vector $x \in \V$, is called an \textbf{eigenvector} of $A$ (or of the matrix operator $T_A$) if $Ax$ is a scalar multiple of $x$; that is,
+\begin{equation} Ax = \lambda x\end{equation}
+for some scalar $\lambda \in \F$. The scalar $\lambda$ is called an \textbf{eigenvalue} of $A$ (or of $T_A$), and $x$ is said to be an eigenvector corresponding to $\lambda$.\\
+Equivalently, $A$ is an $n \times n$ matrix, then $\lambda$ is an eigenvalue of $A$ if and only if it satisfies the equation
+\begin{equation} det(\lambda I - A) = 0\end{equation}
+The above equation is  called the \textbf{characteristic equation} of $A$. 
+
+When the determinant $det(\lambda I - A)$ is expanded, the characteristic equation of $A$ takes the form
+\begin{equation} \lambda^n+c_1\lambda^{n-1}+...+c_n  = 0\end{equation}
+where the left side of this equation is a polynomial of degree $n$ in which the coefficient of $\lambda^n$ is $1$. The polynomial \begin{equation} p(\lambda) = \lambda^n+c_1\lambda^{n-1}+...+c_n \end{equation}
+is called the \textbf{characteristic polynomial} of $A$. \\ 
+
+The eigenvectors of $A$ corresponding to $\lambda$ can be found by finding the nonzero vectors in the solution space of this linear system. This solution space is called the \textbf{eigenspace} of $A$ corresponding to $\lambda$, can also be viewed as:\begin{enumerate}
+\item The null space of the matrix $\lambda I - A$
+\item The kernel of the matrix operator $T_{\lambda I-A}:\V \to \V$
+\item The set of vectors for which $Ax = \lambda x$
+\end{enumerate}
+\end{defn}
+\begin{defn}
+	\textbf{Orthogonal Matrix}\\
+	A square matrix $A$ is said to be orthogonal if $AA^T = A^T A = I $ or, equivalently, if $A^T = A^{-1}$.\\
+\end{defn}
+\begin{defn}
+\textbf{Unitary Matrix}\\
+A square matrix $A$ is said to be unitary if $AA^\ast = A^\ast A = I $ or, equivalently, if $A^\ast = A^{-1}$ and it is said to be Hermitian if $A^\ast = A$.\\
+\end{defn}
+\begin{defn}\textbf{Hermitian Matrix}\\A square matrix $A$ is said to be Hermitian if $A^\ast = A$.
+\end{defn}
+NOTE: 
+\begin{itemize}
+	\item If A is a real unitary matrix, then  it is orthogonal. Thus, the unitary matrices are complex generalizations of the real orthogonal matrices.
+	\item If A is a real Hermitian matrix, then  it is symmetric so the Hermitian matrices are complex generalizations of the real symmetric matrices.
+	\item If A is a Hermitian matrix, then:
+	\begin{enumerate}
+		\item The eigenvalues of A are all real numbers.
+		\item Eigenvalues from different eigenspaces are orthogonal.
+	\end{enumerate}
+\end{itemize}	
+
+
+
+Example of Hermitian matrix, 
+\begin{equation*}
+A=\begin{bmatrix}
+2&3-3i\\
+3+3i&5
+\end{bmatrix} = A^H
+\end{equation*}
+Example of Unitary matrix,
+\begin{equation*}
+A=\begin{bmatrix}
+\frac{1}{\sqrt{2}}&\frac{1}{\sqrt{2}}i\\
+-\frac{1}{\sqrt{2}}i&\frac{1}{\sqrt{2}}
+\end{bmatrix}
+\end{equation*}
+
+\textbf{** The python implementation of the Basic of Linear Algebra is present in the Appendix \ref{qg}.}
+\newpage
+\section{Basics of Quantum Computing}
+\subsection{Notations}
+\begin{table}[h!]
+\centering
+\begin{tabular}{|c|c|}
+\hline
+\textbf{Notation} & \textbf{Description}\\
+\hline
+$|\psi\rangle$ & ket notation \\
+\hline
+$\langle\psi|$ & vector dual to $|\psi\rangle$. Also known as a bra.\\
+\hline
+$\begin{bmatrix} a\\  b \end{bmatrix}$ & Column matrix to represent vectors.\\
+\hline
+$|0\rangle = \begin{bmatrix} 1\\ 0 \end{bmatrix} $ and $|1\rangle = \begin{bmatrix} 0\\1 \end{bmatrix}$ & two level quantum systems used as qubits. \\ 
+\hline
+$\oplus$ & modulo two addition.\\
+\hline
+$\otimes$ & tensor product.\\
+\hline
+$H = \frac{1}{\sqrt{2}} \begin{bmatrix} 1 & 1\\1&-1\end{bmatrix} $ & Hadamard gate.\\
+\hline
+$X = \sigma_x = \begin{bmatrix} 0 & 1\\1&0\end{bmatrix}$ & Pauli-X gate.\\
+\hline
+$Y = \sigma_y = \begin{bmatrix} 0 & -i\\i&0\end{bmatrix}$ & Pauli-Y gate.\\
+\hline
+$Z = \sigma_z = \begin{bmatrix} 1 & 0\\0&-1\end{bmatrix}$ & Pauli-Z gate.\\
+\hline
+$T = \begin{bmatrix} 1 & 0\\0& e^{i\pi / 4}\end{bmatrix}$ &  $\pi /8$ gate.\\
+\hline
+$CNOT = C_x = \begin{bmatrix} 1&0&0&0\\0&1&0&0\\0&0&0&1 \\0&0&1&0\end{bmatrix}$ & Controlled-NOT gate.\\
+\hline
+$swap = \begin{bmatrix} 1&0&0&0\\0&0&1&0\\0&1&0&0 \\0&0&0&1\end{bmatrix}$ & Swap gate.\\
+\hline
+$C_z = \begin{bmatrix} 1&0&0&0\\0&1&0&0\\0&0&1&0 \\0&0&0&-1\end{bmatrix}$ & Controlled-Z gate.\\
+\hline
+$Toffoli = \begin{bmatrix} 1&0&0&0&0&0&0&0\\0&1&0&0&0&0&0&0\\0&0&1&0&0&0&0&0 \\0&0&0&1&0&0&0&0\\0&0&0&0&1&0&0&0 \\ 0&0&0&0&0&1&0&0 \\ 0&0&0&0&0&0&0&1 \\ 0&0&0&0&0&0&1&0\end{bmatrix}$ & Toffoli gate.\\
+%\hline
+%measurement\hspace{2mm} \includegraphics[width=0.05\textwidth]{measure} & Projection onto $|0\rangle$ and $|1\rangle$\\
+\hline
+qubit ------------ & wire carrying a single qubit (time goes left to right)\\
+%\hline
+%classical bit \includegraphics[width=0.10\textwidth]{clas} & wire carrying a single classical bit\\
+\hline
+\end{tabular}
+\caption{Notations} 
+\end{table}
+\newpage
+\begin{defn}
+\textbf{Tensor Product}\\
+Suppose V and W are vector spaces of dimension m and n respectively. Then $V \otimes W$ (read ‘V tensor W’) is an mn dimensional vector space. The elements of $V\otimes W$ are linear combinations of ‘tensor products’ $|v\rangle \otimes |w\rangle$ of elements $|v\rangle$ of V and $|w\rangle$ of W.\\
+By definition the tensor product satisfies the following basic properties:
+\begin{enumerate}
+\item For an arbitrary scalar z and elements $|v\rangle$ of V and $|w\rangle$ of W, \begin{equation*}
+z|v\rangle \otimes |w\rangle = z |c\rangle \otimes |w\rangle = |v\rangle \otimes z|w\rangle
+\end{equation*}
+\item For arbitrary $|v_1\rangle$ and $|v_2\rangle$ in V and $|w\rangle$ in W, \begin{equation*}
+|v_1\rangle + |v_2\rangle \otimes |w\rangle =  |v_1\rangle \otimes |w\rangle  + |v_2\rangle \otimes |w\rangle
+\end{equation*}
+\item For arbitrary $|v\rangle$ in V and $|w_1\rangle$ and $|w_2\rangle$ in W,\begin{equation*}
+|v\rangle \otimes |w_1\rangle + |w_2\rangle = |v\rangle \otimes |w_1\rangle + |v\rangle \otimes |w_2\rangle
+\end{equation*}
+\end{enumerate}
+\end{defn}
+Example, let $|0\rangle = \begin{bmatrix}1\\0\end{bmatrix}$ and $|1\rangle = \begin{bmatrix}0\\1\end{bmatrix}$ then,\\
+\begin{equation*} |0\rangle \otimes |1\rangle = \begin{bmatrix}1\begin{bmatrix}0\\1\end{bmatrix}\\0\begin{bmatrix}0\\1\end{bmatrix}\end{bmatrix} = \begin{bmatrix}0\\1\\0\\0\end{bmatrix}\end{equation*}
+\subsection{Qubit}
+A bit is a binary unit of information used in classical computation. It can take two possible values, typically taken to be 0 or 1. Bits can be implemented with devices or physical systems that can be in two possible states. Whereas, for doing operations on Quantum Computers we need quantum bits which are like classical bits, except they follow the quantum mechanics phenomena like, superposition, entanglement and interference. Therefore, qubit can be defined as following.
+\begin{defn} 
+A qubit is a vector $|\psi\rangle = a|0\rangle + b|1\rangle$ in a two-dimensional complex vector space parameterized by two complex numbers satisfying $|a|^2 + |b|^2 = 1$.
+\end{defn}
+Note:
+\begin{enumerate}
+\item Notation like ‘| $\rangle$’ is called the \textbf{Dirac notation}
+\item The difference between classical bits and qubits is that a qubit can be in a state other than $|0\rangle$ or $|1\rangle$.
+\item Operations on a qubit must preserve this norm i.e., $|a|^2 + |b|^2 = 1$, and thus are described by $2\times2$ unitary matrices.
+\end{enumerate}
+\subsection{Quantum Gates}
+\subsubsection{$\bullet$ Classical Gates vs. Quantum Gates}
+\hspace{5mm}\textbf{Classical Gates:}
+\begin{enumerate}
+\item  Behavior is governed by classical physics, i.e., no restriction on copying or measuring signals.
+\item Operate on classical bits
+\item Signal operations are defined by Boolean Algebra
+\item Defined basic gates and universal gates are:
+\begin{enumerate}
+\item Basic gates:
+\begin{enumerate}
+\item AND
+\item OR
+\item NOT
+\item EX-OR
+\item EX-NOR
+\end{enumerate}	
+\item Universal gates:
+\begin{enumerate}
+\item NAND
+\item NOR
+\end{enumerate}
+\end{enumerate}
+\end{enumerate}
+\hspace{5mm}\textbf{Quantum Gates:}
+\begin{enumerate}
+\item Behavior is governed by quantum mechanics, i.e. can leverage superposition and entanglement.
+\item Operate on quantum bits (qubits)
+\item Operations are defined by linear algebra over Hilbert space and represented by unitary matrices;
+\begin{enumerate}
+\item Gates and circuits must be reversible (information-lossless)
+\item Number of output lines = number of input lines
+\item States cannot be copied so fan-out (cloning) is not allowed.
+\end{enumerate}
+\item Defined gates:
+\begin{enumerate}
+\item Pauli-X
+\item Pauli-Z
+\item Hadamard 
+\item CNOT
+\item Toffoli
+\item Swap etc. 
+\end{enumerate}
+\end{enumerate}
+\textbf{You can find the python implementation of the Quantum Gates in Appendix \ref{qg}.}
+\newline
+\newline
+\begin{enumerate}
+\item \textbf{Pauli-X} \\
+It changes the state $\alpha|0\rangle + \beta|1\rangle$ to the corresponding state in which the role of $|0\rangle$ and $|1\rangle$ have been interchanged, i.e., $\alpha|1\rangle + \beta|0\rangle$.\\
+\textbf{Matrix representation} of the quantum NOT i.e., Pauli-X gate is given as:\\
+\begin{equation*}
+X = 
+\begin{bmatrix} 
+0& 1\\ 
+1&0 
+\end{bmatrix}
+\end{equation*}
+The corresponding output from the quantum gate is, 
+\begin{equation}
+X
+\begin{bmatrix} 
+\alpha\\
+\beta
+\end{bmatrix} = 
+\begin{bmatrix} 
+\beta\\
+\alpha
+\end{bmatrix}
+\end{equation}
+\textbf{Truth table:}\\
+\begin{table}[h!]
+\centering
+\begin{tabular}{|c|c|}
+\hline
+IN & OUT\\
+\hline
+$|0\rangle$ & $|1\rangle$\\
+\hline
+$|1\rangle$ & $|0\rangle$\\
+\hline
+\end{tabular}
+\caption{Truth table for X} 
+\end{table}
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.75\textwidth]{paulix}
+\caption{Circuit implementation of Pauli-X}
+\label{fig:paulix}
+\end{figure}
+\item \textbf{Pauli-Z}\\
+It leaves $|0\rangle$ unchanged, and flips the sign of $|1\rangle$ to give $ -|1\rangle$.\\
+\textbf{Matrix representation} of the Pauli-Z gate is given as: 
+\begin{equation*}
+Z = 
+\begin{bmatrix} 
+1& 0\\ 
+0&-1 
+\end{bmatrix}
+\end{equation*}
+\textbf{Truth table:}\\
+\begin{table}[h!]
+\centering
+\begin{tabular}{|c|c|}
+\hline
+IN & OUT\\
+\hline
+$|0\rangle$ & $|0\rangle$\\
+\hline
+$|1\rangle$ & $-|1\rangle$\\
+\hline
+\end{tabular}
+\caption{Truth table for Z} 
+\end{table}
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.75\textwidth]{pauliz}
+\caption{Circuit implementation of Pauli-Z}
+\label{fig:pauliz}
+\end{figure}
+\item \textbf{Hadamard}\\
+It changes $|0\rangle$ and  $|1\rangle$ as following: \\
+\begin{equation*}
+\begin{split}
+|0\rangle  \to \frac{|0\rangle + |1\rangle}{\sqrt{2}}\\
+|1\rangle  \to \frac{|0\rangle - |1\rangle}{\sqrt{2}}
+\end{split}
+\end{equation*}
+\textbf{Matrix representation} of the Hadamard gate is given as: 
+\begin{equation*}
+H = \frac{1}{\sqrt{2}}
+\begin{bmatrix} 
+1& 1\\ 
+1&-1 
+\end{bmatrix}
+\end{equation*}
+Therefore, in generalised form as the output of the Hadamard gate can be written as:
+\begin{equation}
+H|a\rangle = \frac{1}{\sqrt{2}} \sum_{b\epsilon\{0,1\}} (-1)^{ab} |b\rangle
+\end{equation}
+\textbf{Truth table:}\\
+\begin{table}[h!]
+\centering
+\begin{tabular}{|c|c|}
+\hline
+IN & OUT\\
+\hline
+$|0\rangle$ & $\frac{|0\rangle + |1\rangle}{\sqrt{2}}$\\
+\hline
+$|1\rangle$ & $\frac{|0\rangle - |1\rangle}{\sqrt{2}}$\\
+\hline
+\end{tabular}
+\caption{Truth table for Hadamard gate} 
+\end{table}
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.75\textwidth]{hadamard}
+\caption{Circuit implementation of Hadamard gate}
+\label{fig:hadamard}
+\end{figure}
+\item \textbf{Controlled Not/CNOT}\\
+This gate has two input qubits, known as the \textbf{control qubit} and the \textbf{target qubit}, respectively. The action of the gate may be described as follows: \\
+If the control qubit is set to 0, then the target qubit is left alone. If the control qubit is set to 1, then the target qubit is flipped. The following equations are valid when control qubit is most significant bit:\\
+$|00\rangle \to |00\rangle; |01\rangle \to |01\rangle; |10\rangle \to |11\rangle; |11\rangle \to |10\rangle;$\\
+\textbf{Matrix representation} for the CNOT gate is given as:
+\begin{equation*}
+C_x = 
+\begin{bmatrix} 
+1& 0 & 0& 0\\ 
+0& 1 & 0& 0\\
+0& 0 & 0& 1\\
+0& 0 & 1& 0
+\end{bmatrix}
+\end{equation*}
+\textbf{Truth table:}\\
+\begin{table}[h!]
+\centering
+\begin{tabular}{|c|c|}
+\hline
+IN & OUT\\
+\hline
+$|00\rangle$ & $|00\rangle$\\
+\hline
+$|01\rangle$ & $|01\rangle$\\
+\hline
+$|10\rangle$ & $|11\rangle$\\
+\hline
+$|11\rangle$ & $|10\rangle$\\
+\hline
+\end{tabular}
+\caption{Truth table for CNOT gate} 
+\end{table}
+\\
+The following equations are valid when control qubit is least significant bit:\\
+$|00\rangle \to |00\rangle; |01\rangle \to |10\rangle; |10\rangle \to |10\rangle; |11\rangle \to |01\rangle;$\\
+\textbf{Matrix representation} for the CNOT gate is given as:
+\begin{equation*}
+C_x = 
+\begin{bmatrix} 
+1& 0 & 0& 0\\ 
+0& 0 & 0& 1\\
+0& 0 & 1& 0\\
+0& 1 & 0& 0
+\end{bmatrix}
+\end{equation*}
+Another way of describing the is as a generalization of the classical gate, since the action of the gate may be summarized as $|A,B\rangle \to |A,B \oplus A\rangle$, where $\oplus$ is addition modulo two, which is exactly what the gate does. That is, the control qubit and the target qubit are XORed and stored in the target qubit.
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.50\textwidth]{cnot}
+\caption{Circuit implementation of CNOT gate}
+\label{fig:cnot}
+\end{figure}
+
+\item \textbf{Toffoli}\\
+It is a reversible gate.\\
+It has three input bits and three output bits. \\
+\textbf{Two of the bits are control bits that are unaffected by the action of the Toffoli gate. The third bit is a target bit that is flipped if both control bits are set to 1, and otherwise is left alone. }\\
+\hspace*{1cm} - Note that applying the Toffoli gate twice to a set of bits has the effect $(a, b, c) \to (a, b, c \oplus ab) \to (a, b, c)$, and thus the Toffoli gate is a reversible gate, since it has an inverse – itself.
+\textbf{Matrix representation} for the Toffoli gate is given as:
+\begin{equation*}
+Toffoli = 
+\begin{bmatrix} 
+1& 0 & 0& 0 & 0 & 0& 0 & 0\\ 
+0& 1 & 0& 0 & 0 & 0& 0 & 0\\
+0& 0 & 1& 0 & 0 & 0& 0 & 0\\
+0& 0 & 0& 1 & 0 & 0& 0 & 0\\
+0& 0 & 0& 0 & 1 & 0& 0 & 0\\
+0& 0 & 0& 0 & 0 & 1& 0 & 0\\
+0& 0 & 0& 0 & 0 & 0& 0 & 1\\
+0& 0 & 0& 0 & 0 & 0& 1 & 0\\
+\end{bmatrix}
+\end{equation*}
+\textbf{Truth table:}\\
+\begin{table}[h!]
+\centering
+\begin{tabular}{|c|c|}
+\hline
+IN & OUT\\
+\hline
+$|000\rangle$ & $|000\rangle$\\
+\hline
+$|001\rangle$ & $|001\rangle$\\
+\hline
+$|010\rangle$ & $|010\rangle$\\
+\hline
+$|011\rangle$ & $|011\rangle$\\
+\hline
+$|100\rangle$ & $|100\rangle$\\
+\hline
+$|101\rangle$ & $|101\rangle$\\
+\hline
+$|110\rangle$ & $|111\rangle$\\
+\hline
+$|111\rangle$ & $|110\rangle$\\
+\hline
+\end{tabular}
+\caption{Truth table for Toffoli gate} 
+\end{table}
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.50\textwidth]{toffoli}
+\caption{Circuit implementation of Toffoli gate}
+\label{fig:toffoli}
+\end{figure}
+\newpage
+The Toffoli gate can be used to simulate NAND gates as following: 
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.50\textwidth]{toffolinand}
+\caption{Circuit implementation of Toffoli gate to represent NAND gate}
+\label{fig:toffolinand}
+\end{figure} \newline
+It can be used to do FANOUT as following:
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.40\textwidth]{toffolifanout}
+\caption{Circuit implementation of Toffoli gate to represent FANOUT}
+\label{fig:toffolifanout}
+\end{figure}
+\item \textbf{Swap Gate}\\
+It swaps the states of the two qubits.\\
+The sequence of gates has the following sequence of effects on a computational basis state $|a,b\rangle$,
+\begin{equation}
+\begin{split}
+|a,b\rangle &\to |a,b \oplus a\rangle \\
+& \to |a\oplus(a\oplus b),b\oplus a\rangle =| b,b\oplus a\rangle \\
+&\to|b, (a\oplus b) \oplus b\rangle = |b,a\rangle
+\end{split}
+\end{equation}
+i.e., we can say for an input $|a,b\rangle$ we get an output $|b,a\rangle$ and vice versa. 
+With respect to the basis $|00\rangle, |01\rangle, |10\rangle, |11\rangle$, it is represented by the matrix:
+\begin{equation*}
+U_{CN} = 
+\begin{bmatrix} 
+1& 0 & 0& 0\\ 
+0& 0 & 1& 0\\
+0& 1 & 0& 0\\
+0& 0 & 0& 1
+\end{bmatrix}
+\end{equation*}
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.50\textwidth]{swap}
+\caption{Circuit implementation of Swap gate}
+\label{fig:swap}
+\end{figure}
+\newpage
+\item \textbf{Phase shift ($R_{\phi }$)}\\
+This is a family of single-qubit gates that leave the basis state $|0\rangle$  unchanged and map $|1\rangle$  to $e^{{i\phi }}|1\rangle$ . The probability of measuring a $|0\rangle$  or $|1\rangle$  is unchanged after applying this gate, however it modifies the phase of the quantum state. This is equivalent to tracing a horizontal circle (a line of latitude) on the Bloch sphere by $\phi$  radians.
+\begin{equation*}
+R_{\phi }=\begin{bmatrix}1&0\\0&e^{i\phi }\end{bmatrix}
+\end{equation*}
+\end{enumerate}
+\textbf{** The python implementation of the Quantum Gates is present in the Appendix \ref{qg}.}
+\newline
+\subsection{Measurements in Basis other than Computational Basis}
+The states $|0\rangle$ and $|1\rangle$ represent just one of many possible choices of basis state for a qubit.\\
+Another possible choice is the set \begin{equation}
+\begin{split}
+|+\rangle \equiv \frac{|0\rangle + |1\rangle}{\sqrt{2}} \\
+|-\rangle \equiv  \frac{|0\rangle - |1\rangle}{\sqrt{2}} 
+\end{split}
+\end{equation}
+Therefore, an arbitrary state $|\psi\rangle = \alpha|0\rangle+\beta|1\rangle$ can be re-expressed in terms of the states $|+\rangle$ and $|-\rangle$:
+\begin{equation}
+\begin{split}
+|\psi\rangle &= \alpha|0\rangle+\beta|1\rangle \\
+& = \alpha\frac{|+\rangle + |-\rangle }{\sqrt{2}} + \beta\frac{|+\rangle - |-\rangle }{\sqrt{2}} \\
+&= \frac{\alpha + \beta}{\sqrt{2}} |+\rangle + \frac{\alpha - \beta}{\sqrt{2}} |-\rangle
+\end{split}
+\end{equation}
+\textbf{** The python implementation of the Quantum Gates is present in the Appendix \ref{bconv}.}
+
+\subsection{No-Cloning Theorem}
+It is possible to copy a classical bit using classical CNOT, which takes in the bit to copy (say some unknown state x) and a scratchpad bit initialized to zero, giving 2 bits as output, both of which are in the same state, as shown below: 
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.50\textwidth]{copy}
+\caption{Circuit implementation to copy classical bits using CNOT}
+\label{fig:copy}
+\end{figure}
+\\
+Now suppose, we are trying to copy some unknown state say, $|\psi\rangle = a|0\rangle + b|1\rangle$ using CNOT, then the input state can be written as, $[a|0\rangle + b|1\rangle]|0\rangle = a|00\rangle + b|10\rangle$, producing an output $a|00\rangle + b|11\rangle$, which is not same as the input state.\\
+In general, if $|\psi\rangle = a|0\rangle + b|1\rangle$ then, 
+\begin{equation}
+|\psi\rangle |\psi\rangle = a^2|00\rangle + ab|01\rangle + ab|10\rangle  + b^2|11\rangle
+\end{equation}
+Comparing with $a|00\rangle + b|11\rangle$, we see that unless ab=0, the \textbf{‘copying circuit’} above does not copy the quantum state input. In fact, it turns out to be impossible to make a copy of an unknown quantum state. This property, that qubits cannot be copied, is known as the \textbf{no-cloning theorem}, and it is one of the chief differences between quantum and classical information.
+\subsection{Bell State}
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.50\textwidth]{bellstate}
+\caption{Circuit implementation for Bell State}
+\label{fig:bellstate}
+\end{figure}
+The circuit has a Hadamard gate followed by a CNOT gate, and transforms the four computational basis states according to the table given below. \\
+\begin{table}[h!]
+\centering
+\begin{tabular}{|c|c|}
+\hline
+IN & OUT\\
+\hline
+$|00\rangle$ & $|\beta_{00}\rangle \equiv \frac{|00\rangle + |11\rangle}{\sqrt{2}}$\\
+\hline
+$|01\rangle$ & $|\beta_{01}\rangle \equiv \frac{|01\rangle + |10\rangle}{\sqrt{2}}$\\
+\hline
+$|10\rangle$ & $|\beta_{10}\rangle \equiv \frac{|00\rangle - |11\rangle}{\sqrt{2}}$\\
+\hline
+$|11\rangle$ & $|\beta_{11}\rangle \equiv \frac{|01\rangle - |10\rangle}{\sqrt{2}}$\\
+\hline
+\end{tabular}
+\caption{Truth table for Bell State} 
+\end{table} 
+\\
+For example, let the input be: $|00\rangle$ \\
+Then applying Hadamard gate to the input results in a state:  $\frac{(|0\rangle + |1\rangle)|0\rangle}{\sqrt{2}}$\\
+Applying CNOT gate gives the following final result:  $\frac{|00\rangle + |11\rangle}{\sqrt{2}}$\\
+\\
+\textbf{Working of the above circuit:}\\
+First, the Hadamard transform puts the top qubit in a superposition; this then acts a control input to the CNOT, and the target gets inverted only when the control is 1. The output states can be summarized as: 
+\begin{equation}
+\begin{split}
+|\beta_{00}\rangle \equiv \frac{|00\rangle + |11\rangle}{\sqrt{2}} \\
+|\beta_{01}\rangle \equiv \frac{|01\rangle + |10\rangle}{\sqrt{2}} \\
+|\beta_{10}\rangle \equiv \frac{|00\rangle - |11\rangle}{\sqrt{2}}  \\
+|\beta_{11}\rangle \equiv \frac{|01\rangle - |10\rangle}{\sqrt{2}}
+\end{split}
+\end{equation}
+and are known as \textbf{Bell States}, sometimes the \textbf{EPR states or EPR pairs}, named after some of the people who pointed out the properties of states like these. These Bell states are also called to be \textbf{maximally entangled states}.\\
+The mnemonic notation $|\beta_{00}\rangle, |\beta_{01}\rangle, |\beta_{10}\rangle, |\beta_{11}\rangle$  may be understood via the equation, 
+\begin{equation}
+|\beta_{xy}\rangle \equiv \frac{|0,y\rangle + (-1)^x |1,\overline{y}\rangle}{\sqrt{2}},
+\end{equation}
+where $\overline{y}$ is the negation of y. \\
+\textbf{** The python implementation and Qiskit implementation of the Bell States is present in the Appendix \ref{bellstate}.} 
+\subsection{Quantum Teleportation}
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.70\textwidth]{teleportation}
+\caption{Circuit implementation for Quantum Teleportation}
+\label{fig:teleportation}
+\end{figure}
+Quantum teleportation is a technique for moving quantum states around, even in the absence of a quantum communications channel linking the sender of the quantum state to the recipient. \\ \\
+The above event can be described informally as: \\
+Alice interacts the qubit $|\psi\rangle$ with her half of the EPR pair, and then measures the two qubits in her possession, obtaining one of four possible classical results, 00, 01, 10, and 11. She sends this information to Bob. Depending on Alice’s classical message, Bob performs one of four operations on his half of the EPR pair, by doing so, he can recover the original state $|\psi\rangle$. \\ \\
+Mathematically,
+\\
+Let the state to be teleported be $|\psi\rangle = \alpha|0\rangle + \beta|1\rangle$, where $\alpha$ and $\beta$ are unknown amplitudes. The state input into the circuit $|\psi_0\rangle$ is 
+\begin{equation}
+\begin{split}
+|\psi_0\rangle &= |\psi\rangle \beta_{00}\rangle \\
+& = \frac{1}{\sqrt{2}} [\alpha|0\rangle(|00\rangle + |11\rangle) + \beta|1\rangle(|00\rangle + |11\rangle)] 
+\end{split}
+\end{equation}
+Alice sends her qubits through a CNOT gate, obtaining
+\begin{equation}
+\begin{split}
+|\psi_1\rangle = \frac{1}{\sqrt{2}} [\alpha|0\rangle(|00\rangle + |11\rangle) + \beta|1\rangle(|10\rangle + |01\rangle)] 
+\end{split}
+\end{equation}
+Alice sends the first qubit through Hadamard gate, obtaining
+\begin{equation}
+\begin{split}
+|\psi_2\rangle = \frac{1}{2} [\alpha(|0\rangle + |1\rangle)(|00\rangle + |11\rangle) + \beta(|0\rangle - |1\rangle)(|10\rangle + |01\rangle)] 
+\end{split}
+\end{equation}
+This state may be re-written in the following way, by regrouping terms:
+\begin{equation}
+\begin{split}
+|\psi_2\rangle = \frac{1}{2} [|00\rangle(\alpha|0\rangle + \beta|1\rangle) + |01\rangle(\alpha|1\rangle + \beta|0\rangle) + |10\rangle(\alpha|0\rangle - \beta|1\rangle) + |11\rangle(\alpha|1\rangle - \beta|0\rangle)] 
+\end{split}
+\end{equation}
+This expression breaks down into four terms. The first term has Alice’s qubits in the state $|00\rangle$, and Bob’s qubit in the state $\alpha|0\rangle + \beta|1\rangle$ – which is the original state $|\psi\rangle$. If Alice performs a measurement and obtains the result 00 then Bob’s system will be in the state $|\psi\rangle$. Similarly, from the previous expression we can read off Bob’s post measurement state, given the result of Alice’s measurement:
+\begin{equation}
+\begin{split}
+00 \to |\psi_3(00)\rangle \equiv [\alpha|0\rangle + \beta|1\rangle] \\
+01 \to |\psi_3(01)\rangle \equiv [\alpha|1\rangle + \beta|0\rangle]	\\
+10 \to |\psi_3(10)\rangle \equiv [\alpha|0\rangle - \beta|1\rangle]	\\
+11 \to |\psi_3(11)\rangle \equiv [\alpha|1\rangle - \beta|0\rangle]	
+\end{split}
+\end{equation}
+Depending on Alice’s measurement outcome, Bob’s qubit will end up in one of these four possible states. Once Bob has learned the measurement outcome, Bob can fix his state, recovering $|\psi\rangle$, by applying the appropriate quantum gate. Bob needs to apply the transformation $Z^{M1}X^{M2}$ (time goes from left to right in circuit diagrams, but in matrix product terms on the right happen first) to his qubit, and he will recover the state $|\psi\rangle$.
+\\
+\textbf{** The Qiskit implementation of Quantum Teleportation is present in the Appendix \ref{teleportation}.}
+\subsection{Quantum Parallelism}
+Quantum parallelism allows quantum computers to evaluate a function f(x) for many different values of x simultaneously.\\
+Suppose $f(x):\{0,1\}\to\{ 0,1\}$ is a function with a one-bit domain and range. A convenient way to compute this function on a quantum computer is to consider a two qubit quantum computer which starts in the state $|x,y\rangle$. With an appropriate sequence of logic gates it is possible to transform this state into $|x,y\oplus f(x)\rangle$, where$\oplus$ indicates additionmodulo2; the first register is called the \textbf{‘data’ register}, and the second register the \textbf{‘target’ register}. \\
+The transformation defined by the map 
+\begin{equation}
+|x,y\rangle \to |x,y\oplus f(x)\rangle
+\end{equation} 
+is named $U_f$. If y=0, then the final state of the second qubit is just the value f(x). Consider the following circuit,
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.50\textwidth]{parallel}
+\caption{Circuit implementation for Quantum Parallelism}
+\label{fig:parallel}
+\end{figure}
+it applies $U_f$ to an input which is not in the computational basis. Instead, the data register is prepared in the superposition $\frac{|0\rangle + |1\rangle}{\sqrt{2}}$, which can be created with a Hadamard gate acting on $|0\rangle$. Then we apply $U_f$, resulting in the following state: 
+\begin{equation}
+\frac{|0,f(0)\rangle + |1,f(1)\rangle}{\sqrt{2}}
+\end{equation}
+This procedure can easily be generalized to functions on an arbitrary number of bits, by using a general operation known as the Hadamard transform, or sometimes the Walsh - Hadamard transform. This operation is just n Hadamard gates acting in parallel on n qubits. The result of performing the Hadamard transform on n qubits initially in the all $|0\rangle$ state is 
+\begin{equation}
+H^{\otimes n}|x\rangle = \frac{1}{\sqrt{2^n}} \sum_{x\epsilon\{0,1\}^n} |x\rangle  
+\end{equation} 
+\subsection{Density Operator}
+Suppose a quantum system is in one of a number of states $|\psi_i\rangle$, where i is an index, with respective probabilities $p_i$. We shall call $\{p_i,|\psi_i\rangle\}$ an \textbf{ensemble of pure states}. The density operator for the system is defined by the equation 
+\begin{equation}
+\rho \equiv \sum_i p_i|\psi_i\rangle\langle\psi_i|
+\end{equation}
+The density operator is often known as the density matrix; If the system was initially in the state $|\psi_i\rangle$ with probability $p_i$ then after the evolution has occurred the system will be in the state $U|\psi_i\rangle$ with probability $p_i$. Thus, the evolution of the density operator is described by the equation
+\begin{equation}
+\rho = \sum_i p_i|\psi_i\rangle\langle\psi_i| \to^U \sum_i p_iU|\psi_i\rangle\langle\psi_i|U^\dagger = U\rho U^\dagger
+\end{equation}
+A quantum system whose state $|\psi\rangle$ is known exactly is said to be in a \textbf{pure state}. In this case the density operator is simply $\rho = |\psi\rangle\langle\psi|$. Otherwise, $\rho$ is in a \textbf{mixed state}; it is said to be a mixture of the different pure states in the ensemble for $\rho$.\\
+A pure state satisfies $tr(\rho^2) = 1$, while a mixed state satisfies $tr(\rho^2) < 1$.\\
+An operator $\rho$ is the density operator associated to some ensemble $\{p_i,|\psi_i\rangle\}$ if and only if it satisfies the following conditions:
+\begin{enumerate}
+\item (Trace condition) $\rho$ has trace equal to one.
+\item (Positivity condition) $\rho$ is a positive operator.\\ 
+\end{enumerate}
+\subsection{Quantum Fourier Transform}
+The quantum Fourier transform (QFT) is the quantum implementation of the discrete Fourier transform over the amplitudes of a wave function. It is part of many quantum algorithms, most notably Shor's factoring algorithm and quantum phase estimation.\\
+The discrete Fourier transform acts on a vector $(x_{0},…,x_{N-1})$ and maps it to the vector $(y_{0},…,y_{N-1})$  according to the formula\\
+\begin{equation}
+y_{k}\equiv \frac{1}{\sqrt{N}}\sum_{j=0}^{N-1} x_{j}e^{2\pi ijk/N}
+\end{equation}
+\linebreak
+The quantum Fourier transform on an othonormal basis $|0\rangle,...,|N-1\rangle$ is defined as a linear operator with the following action on the basis states,
+\begin{equation}
+|j\rangle \to \frac{1}{\sqrt{N}}\sum_{k=0}^{N-1} x_{j}e^{2\pi ijk/N} |k\rangle
+\end{equation}Circuit for finding Quantum Fourier Transform when $N=2^{n}$ and $QFT_{N}$ is acting on the state $|x\rangle = |x_{1}...x_{n}\rangle$ where $x_{1}$ is the most significant bit.
+\begin{equation}
+\begin{split}
+QFT_{N}|x\rangle & = \frac{1}{\sqrt{N}} \sum_{y=0}^{N-1} e^{2\pi ixy/2^{n}}|y\rangle \\
+& = \frac{1}{\sqrt{N}}  \sum_{y=0}^{N-1} e^{2\pi i(\sum_{k=1}^{n} y_{k}/2^{k})x} |y_{1}...y_{n}\rangle, \intertext{\newline\newline rewriting in fractional binary notation $y=y_{1}...y{n}, y/2^{n} = \sum_{k=1}^{n} y_{k}/2^{k}$}\\
+&= \frac{1}{\sqrt{N}}  \sum_{y=0}^{N-1} \prod_{k=1}^{n} e^{2\pi ixy_k/2^{k}} |y_{1}...y_{n}\rangle, \intertext{after expanding the exponential of a sum to a product of exponentials}\\
+&=  \frac{1}{\sqrt{N}} \otimes_{k=1}^{n} (|0\rangle +  e^{2\pi ix/2^{k}} |1\rangle ), \intertext{after rearranging the sum and product and expanding $\sum_{y=0}^{N-1} = \sum_{y_1=0}^{1} \sum_{y_2=0}^{1} ... \sum_{y_n=0}^{1}$}\\
+&=  \frac{1}{\sqrt{N}} (|0\rangle +  e^{\frac{2\pi i}{2}x} |1\rangle ) \otimes (|0\rangle +  e^{\frac{2\pi i}{2^2}x} |1\rangle ) \otimes ... \otimes (|0\rangle +  e^{\frac{2\pi i}{2^{n-1}}x} |1\rangle ) \otimes (|0\rangle +  e^{\frac{2\pi i}{2^n}x} |1\rangle )
+\end{split}
+\end{equation}
+\newline
+\textbf{Circuit Implementation:}\\
+The circuit that implements QFT makes use of two gates, first one is a Hadamard gate and the second  is a two-qubit controlled rotation $R_k$ given as\\
+\begin{equation}
+R_k(\Theta) = \left[
+\begin{matrix}
+1 & 0 & 0 & 0\\
+0 & 1 & 0 & 0\\
+0 & 0 & 1 & 0\\
+0 & 0 & 0 & e^{i\Theta}
+\end{matrix}
+\right]
+\end{equation} 
+where $\Theta = 2\pi/2^k = \pi / 2^{k-1}$. The action of $R_k$ on the two-qubit state $|x_jx_k\rangle$ where the first qubit is the control and the second is the target is given by, $R_k|x_j0\rangle = |x_j0\rangle$ and $R_k|x_j1\rangle = e^{\frac{2\pi i}{2^k}x_j}|x_j1\rangle$
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.75\textwidth]{QFT}
+\caption{Circuit for Quantum Fourier Transform}
+\label{fig:QFT}
+\end{figure}
+\linebreak 
+Consider the following example, $|y_1y_2y_3\rangle = QFT_8|x_1x_2x_3\rangle$\\ \newline
+1. Apply a Hadamard gate to $|x_3\rangle$.
+\begin{equation}
+\psi_1 = |x_1\rangle  \otimes |x_2\rangle \otimes \frac{1}{\sqrt{2}}\left[|0\rangle + e^{\frac{2\pi i}{2}x_3}|1\rangle\right]
+\end{equation}
+2. Apply $R_2$ gate to$|x_3\rangle$ depending on $|x_2\rangle$.
+\begin{equation}
+\psi_2 = |x_1\rangle  \otimes |x_2\rangle \otimes \frac{1}{\sqrt{2}}\left[|0\rangle + e^{\frac{2\pi i}{2^2}x_2 + \frac{2\pi i}{2}x_3}|1\rangle\right]
+\end{equation}
+3. Apply $R_3$ gate to$|x_3\rangle$ depending on $|x_1\rangle$.
+\begin{equation}
+\psi_3 = |x_1\rangle  \otimes |x_2\rangle \otimes \frac{1}{\sqrt{2}}\left[|0\rangle + e^{\frac{2\pi i}{2^3}x_1 + \frac{2\pi i}{2^2}x_2 + \frac{2\pi i}{2}x_3}|1\rangle\right]
+\end{equation}
+4.  Apply a Hadamard gate to $|x_2\rangle$.
+\begin{equation}
+\psi_4 = |x_1\rangle  \otimes  \frac{1}{\sqrt{2}}\left[|0\rangle + e^{\frac{2\pi i}{2}x_2}|1\rangle\right] \otimes \frac{1}{\sqrt{2}}\left[|0\rangle + e^{\frac{2\pi i}{2^3}x_1 + \frac{2\pi i}{2^2}x_2 + \frac{2\pi i}{2}x_3}|1\rangle\right]
+\end{equation}
+5. Apply $R_2$ gate to$|x_2\rangle$ depending on $|x_1\rangle$.
+\begin{equation}
+\psi_5 = |x_1\rangle  \otimes  \frac{1}{\sqrt{2}}\left[|0\rangle + e^{\frac{2\pi i}{2^2}x_1 + \frac{2\pi i}{2}x_2}|1\rangle\right] \otimes \frac{1}{\sqrt{2}}\left[|0\rangle + e^{\frac{2\pi i}{2^3}x_1 + \frac{2\pi i}{2^2}x_2 + \frac{2\pi i}{2}x_3}|1\rangle\right]
+\end{equation}
+6. Apply a Hadamard gate to $|x_1\rangle$.
+\begin{equation}
+\psi_6 = \frac{1}{\sqrt{2}}\left[|0\rangle + e^{\frac{2\pi i}{2}x_1}|1\rangle\right]  \otimes  \frac{1}{\sqrt{2}}\left[|0\rangle + e^{\frac{2\pi i}{2^2}x_1 + \frac{2\pi i}{2}x_2}|1\rangle\right] \otimes \frac{1}{\sqrt{2}}\left[|0\rangle + e^{\frac{2\pi i}{2^3}x_1 + \frac{2\pi i}{2^2}x_2 + \frac{2\pi i}{2}x_3}|1\rangle\right]
+\end{equation}
+7. Measure the bits, $y_3 = x_1$, $y_2 = x_2$, $y_1 = x_3$.\\ \\
+\textbf{** The Qiskit implementation of Quantum Fourier Transform is present in the Appendix \ref{qft}.} \\ \\
+\chapter{Quantum Algorithms}
+\section{Deutsch's Algorithm}
+
+It combines quantum parallelism with a property of quantum mechanics known as interference. It is a special case of the general Deutsch–Jozsa algorithm. \newline
+\textbf{Input to the algorithm:}
+\begin{enumerate}
+	\item $f:  \{0,1\} \to \{0,1\}$ such that ${f}$ is either constant or balanced.
+	\item a black box $U_{f}$ which performs the transformation  $|x\rangle|y\rangle \to |x\rangle|y\oplus f(x)\rangle$
+\end{enumerate}
+\textbf{Output:} 0 if and only if $f$ is constant.
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.75\textwidth]{DeutschAlgo}
+\caption{Quantum circuit implementing Deutsch's algorithm.}
+\label{fig:deutschalgo}
+\end{figure}
+\newline The above figure \ref{fig:deutschalgo}, represents the circuit for the algorithm.
+\linebreak
+Let,
+\begin{equation}
+|\psi_{0}\rangle = |0\rangle|1\rangle
+\end{equation} 
+\newline
+When $|\psi_{0}\rangle$ is passed through two Hadamard Gates, we get,\newline
+\begin{equation}
+\begin{split}
+|\psi_{1}\rangle & = \left[\frac{|0\rangle+|1\rangle}{\sqrt{2}}\right]\left[\frac{|0\rangle-|1\rangle}{\sqrt{2}}\right] \\
+&= \left[\frac{|00\rangle - |01\rangle + |10\rangle -|11\rangle}{2}\right] 
+\end{split} 
+\end{equation}
+\newline
+Applying $U_{f}$ to $|x\rangle|y\rangle$, it transforms the state  as:  $|x\rangle|y\rangle \to |x\rangle|y\oplus f(x)\rangle$\newline
+Therefore, after applying $U_{f}$ to $|\psi_{1}\rangle$, we get \newline 
+\begin{equation}
+|\psi_{2}\rangle = \left[\frac{|0\rangle|0\oplus f(0)\rangle - |0\rangle|1\oplus f(0)\rangle + |1\rangle|0\oplus f(1)\rangle - |1\rangle|1\oplus f(1)\rangle }{2}\right]
+\end{equation} \newline
+Let the function f(x) be a \textbf{constant function}:
+
+Case 1:\quad Let f(0)=f(1)=0, then,
+\begin{equation}\label{e1}
+\begin{split}
+|\psi_{2}\rangle & = \left[\frac{|0\rangle|0\rangle - |0\rangle|1\rangle + |1\rangle|0\rangle - |1\rangle|1\rangle }{2}\right] \\ 
+&= \left[\frac{|0\rangle\left[|0\rangle - |1\rangle\right] + |1\rangle\left[|0\rangle - |1\rangle\right]}{2}\right] \\
+& = \left[\frac{|0\rangle+|1\rangle}{\sqrt{2}}\right]\left[\frac{|0\rangle-|1\rangle}{\sqrt{2}}\right] 
+\end{split}
+\end{equation}
+\newline
+
+Case 2:\quad Let f(0)=f(1)=1, then,
+\begin{equation}\label{e2}
+\begin{split}
+|\psi_{2}\rangle &= \left[\frac{|0\rangle|1\rangle - |0\rangle|0\rangle + |1\rangle|1\rangle - |1\rangle|0\rangle }{2}\right] \\ 
+& = \left[\frac{|0\rangle\left[|1\rangle - |0\rangle\right] + |1\rangle\left[|1\rangle - |0\rangle\right]}{2}\right] \\
+& = - \left[\frac{|0\rangle+|1\rangle}{\sqrt{2}}\right]\left[\frac{|0\rangle-|1\rangle}{\sqrt{2}}\right]
+\end{split}
+\end{equation}
+\newline\newline\newline Let the function f(x) be a \textbf{balanced function}:
+
+Case 1:\quad Let f(0)= 0 f(1)=1, then,
+\begin{equation}\label{e3}
+\begin{split}
+|\psi_{2}\rangle & = \left[\frac{|0\rangle|0\rangle - |0\rangle|1\rangle + |1\rangle|1\rangle - |1\rangle|0\rangle }{2}\right] \\
+& = \left[\frac{|0\rangle\left[|0\rangle - |1\rangle\right] + |1\rangle\left[|1\rangle - |0\rangle\right]}{2}\right] \\
+& = \left[\frac{|0\rangle-|1\rangle}{\sqrt{2}}\right]\left[\frac{|0\rangle-|1\rangle}{\sqrt{2}}\right] 
+\end{split}
+\end{equation}
+\newline
+
+Case 2:\quad Let f(0)=1 f(1)=0, then,
+\begin{equation}\label{e4}
+\begin{split}
+|\psi_{2}\rangle & = \left[\frac{|0\rangle|1\rangle - |0\rangle|0\rangle + |1\rangle|0\rangle - |1\rangle|1\rangle }{2}\right] \\
+                        & = \left[\frac{|0\rangle\left[|1\rangle - |0\rangle\right] - |1\rangle\left[|1\rangle - |0\rangle\right]}{2}\right] \\
+			& = - \left[\frac{|0\rangle -|1\rangle}{\sqrt{2}}\right]\left[\frac{|0\rangle-|1\rangle}{\sqrt{2}}\right] 
+\end{split}
+\end{equation}\newline
+Therefore, from the equations \ref{e1}, \ref{e2}, \ref{e3} and \ref{e4}, we can write $|\psi_{2}\rangle$ as following,
+\begin{equation}
+|\psi_{2}\rangle =
+		\begin{cases}
+			\pm\left[\frac{|0\rangle+|1\rangle}{\sqrt{2}}\right]\left[\frac{|0\rangle-|1\rangle}{\sqrt{2}}\right] & \text{, if $f(0)=f(1)$} \\
+			\pm\left[\frac{|0\rangle-|1\rangle}{\sqrt{2}}\right]\left[\frac{|0\rangle-|1\rangle}{\sqrt{2}}\right]  & \text{, if  $f(0) \ne f(1)$}
+		\end{cases}
+\end{equation}
+\newline Finally applying Hadamard transform on the first qubit, thus gives us,
+\begin{equation}
+|\psi_{3}\rangle =
+		\begin{cases}
+			\pm|0\rangle\left[\frac{|0\rangle-|1\rangle}{\sqrt{2}}\right] & \text{, if $f(0)=f(1)$} \\
+			\pm|1\rangle\left[\frac{|0\rangle-|1\rangle}{\sqrt{2}}\right]  & \text{, if  $f(0) \ne f(1)$}
+		\end{cases}
+\end{equation}
+\newline Therefore, we can conclude that, if a function $f(x)$ is a Constant Function, then when we get the the first qubit as 0, otherwise, we get 1, if the function is a Balanced Function.\\
+\section{Deutsch-Jozsa Algorithm}
+
+\textbf{Problem Statement:} \newline
+In this problem, we are given a black box quantum computer, sometimes known as an oracle that implements some function $f:\{0,1\}^{n}\to\{0,1\}$.The function takes n-digit binary values as input and produces either a 0 or a 1 as output for each value. The function is either constant (0 on all outputs or 1 on all outputs) or balanced (returns 1 for half of the input domain and 0 for the other half); the task then is to determine if $f$ is constant or balanced by using the oracle. 
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.75\textwidth]{DeutschJozzaAlgo}
+\caption{Quantum circuit implementing Deutsch-Jozsa algorithm.}
+\label{fig:deutschjozzaalgo}
+\end{figure}
+\newline
+Consider $x=x_{1},x_{2},...,x_{n}$, $y=y_{1},y_{2},...,y_{n}$, where $ x_{i} \epsilon \{0,1\}$, $y_{j} \epsilon \{0,1\}$ and $x\epsilon\{0,1\}^{n}$, $y\epsilon\{0,1\}^{n}$. Then, $H^{\otimes n}|x\rangle$ can be given as,
+\begin{equation}
+\begin{split}
+H^{\otimes n}|x\rangle & = (\frac{1}{\sqrt{2}}\sum\limits_{y_{1}\epsilon\{0,1\}} (-1)^{x_{1}.y_{1}} |y_{1}\rangle)...(\frac{1}{\sqrt{2}}\sum\limits_{y_{n}\epsilon\{0,1\}} (-1)^{x_{n}.y_{n}} |y_{n}\rangle) \\
+	& = \frac{1}{\sqrt{2^{n}}} \sum\limits_{y\epsilon\{0,1\}^{n}} (-1)^{x_{1}.y_{1}+x_{2}.y_{2}+...+x_{n}.y_{n}} |y\rangle
+\end{split}
+\end{equation}
+\textbf{Algorithm:}\newline
+\textbf{Input:}
+\begin{enumerate}
+	\item $f(x), x \epsilon \{0,..,2^{n}-1\} \quad and \quad f(x) \epsilon \{0,1\}$ , where $f(x)$ is either constant for all values of$x$, or else $f(x)$ is balanced.
+	\item a black box $U_{f}$ which performs the transformation  $|x\rangle|y\rangle \to |x\rangle|y\oplus f(x)\rangle$
+\end{enumerate}
+\textbf{Output:} 0 if and only if $f$ is constant.
+\newline\textbf{Procedure:}
+\begin{enumerate}
+	\item initialize state, $|\psi_{0}\rangle = |0\rangle^{\otimes n} |1\rangle$
+	\item create superposition using Hadamard Gate, $ |\psi_{1}\rangle = \frac{1}{\sqrt{2^{n}}} \sum\limits_{x \epsilon\{0,1\}^{n}}|x\rangle\left[\frac{|0\rangle - |1\rangle}{\sqrt{2}}\right]$
+	\item calculate function $f$ using $U_{f}, |\psi_{2}\rangle = \sum\limits_{x \epsilon\{0,1\}^{n}} (-1)^{f(x)}|x\rangle\left[\frac{|0\rangle - |1\rangle}{\sqrt{2}}\right]$
+	\item perform Hadamard Transform on the query register $|\psi_{3}\rangle = \sum\limits_{z\epsilon\{0,1\}^{n}}\sum\limits_{x\epsilon\{0,1\}^{n}} \frac{(-1)^{x.z+f(x)} |z\rangle}{2^{n}}\left[\frac{|0\rangle-|1\rangle}{\sqrt{2}}\right]$
+	\item measure the query register, $z$
+\end{enumerate} 
+\textbf{** The Python implementation of Deutsch-Jozsa Algorithm is present in the Appendix \ref{dja}.}
+
+\section{Quantum Phase Estimation}
+
+Given a unitary operator U, the algorithm estimates $\Theta$ in $U|\psi\rangle = e^{2\pi i\Theta}|\psi\rangle$. Here $|\psi\rangle$ is an eigenvector and $e^{2\pi i \Theta}$ is the corresponding eigenvalue. Since U is unitary, all of its eigenvalues have a norm of 1. The general quantum circuit for phase estimation is as following:
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.75\textwidth]{PhaseEstimation}
+\caption{Circuit implementing Phase Estimation}
+\label{fig:PE}
+\end{figure} 
+\newpage
+\textbf{Working of the Circuit:}\\
+\begin{enumerate}
+	\item Set $|\psi\rangle$ in one set of qubit registers, and additional set of n qubits in ancilla register:
+		\begin{equation}
+			|\psi_0\rangle = |0\rangle^{\otimes n}|\psi\rangle
+		\end{equation} 
+	\item Apply an n-bit Hadamard gate operation $H^{\otimes n}$ on the ancilla register:
+		\begin{equation}
+			|\psi_1\rangle = \frac{1}{2^{\frac{n}{2}}}(|0\rangle + |1\rangle)^{\otimes n}|\psi \rangle
+		\end{equation} 
+	\item Applying the unitary operator U on the target register only if its corresponding control bit is $|1\rangle$. Since U is a unitary operator with eigenvector $|\psi\rangle$ such that $U|\psi\rangle = e^{2\pi i\Theta}|\psi\rangle$, this means, $U^{2^j}|\psi\rangle =U^{2^{j-1}}e^{2\pi i\Theta}|\psi\rangle =...= e^{2\pi i2^j\Theta}|\psi\rangle$. Applying all the n controlled operations, $U^{2^j}$ with $0\le j\le n-1$, 
+		\begin{equation}
+		\begin{split}
+			|\psi_2\rangle &= \frac{1}{2^{\frac{n}{2}}}(|0\rangle +  e^{2\pi i\Theta2^{n-1}}|1\rangle) \otimes (|0\rangle +  e^{2\pi i\Theta2^{n-1}}|1\rangle) \otimes (|0\rangle +  e^{2\pi i\Theta2^{1}}|1\rangle) \otimes  |\psi \rangle \\
+					& = \frac{1}{2^{\frac{n}{2}}} \sum_{k=0}^{2^{n}-1} e^{2\pi i \Theta k} |k\rangle \otimes |\psi\rangle
+		\end{split}
+		\end{equation}
+	\item Inverse Fourier Transform:
+		\begin{equation}
+			|\psi_3\rangle = \frac{1}{2^{\frac{n}{2}}} \sum_{k=0}^{2^{n}-1} e^{2\pi i \Theta k} |k\rangle \otimes |\psi\rangle \to^{QFT_n^-1}  \frac{1}{2^n} \sum_{x=0}^{2^{n}-1}\sum_{k=0}^{2^{n}-1} e^{-\frac{2\pi ik}{2^n}(x-2^n\Theta)} |x\rangle \otimes |\psi\rangle
+		\end{equation}
+	\item Measurement 
+		\begin{equation}
+			|\psi_4\rangle =  |2^n\Theta\rangle \otimes |\psi\rangle
+		\end{equation}
+\end{enumerate} 
+\textbf{** The Qiskit implementation of Phase Estimation Algorithm is present in the Appendix \ref{pe}.}
+\newpage
+\section{Quantum Order Finding}
+This is an application of Phase Estimation Algorithm. This algorithm for finding the order is just phase estimation applied to the unitary operator 
+\begin{equation}
+U|y\rangle = |xy(\mod N)\rangle
+\end{equation}
+with $y\epsilon\{0,1\}^L$. And the states defined by \\
+\begin{equation}
+|u_s\rangle = \frac{1}{\sqrt{r}}\sum_{k=0}^{r-1} e^{\frac{-2\pi isk}{r}} |x^k \mod N\rangle
+\end{equation}, for integers $0\le s \le r-1$ are eigenstates of U, since
+\begin{equation}
+\begin{split}
+U|u_s\rangle & = \frac{1}{\sqrt{r}}\sum_{k=0}^{r-1} e^{\frac{-2\pi isk}{r}} |x^{k+1} \mod N\rangle \\
+& = e^{\frac{2\pi is}{r}}|u_s\rangle
+\end{split}
+\end{equation}
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.75\textwidth]{orderfinding}
+\caption{Circuit for Quantum Order Finding.}
+\label{fig:orderfindingt}
+\end{figure}
+\linebreak
+\textbf{Procedure:}\\
+1. $|0\rangle |1\rangle$, initial state\\
+2. $\to\frac{1}{\sqrt{2^t}}\sum_{j=0}^{2^t - 1} |j\rangle|1\rangle$, create superposition\\
+3. $\to\frac{1}{\sqrt{r2^t}}\sum_{s=0}^{r - 1} \sum_{j=0}^{2^t - 1}  e^{\frac{2\pi isj}{r}} |j\rangle|u_s\rangle$,  apply $U_{x,N}$\\
+4. $\to\frac{1}{\sqrt{r}}\sum_{s=0}^{r - 1}|s/r\rangle|u_s\rangle$, apply inverse fourier transform to first register\\
+5. $\to s/r$, measure first register\\
+6. $\to r$, apply continued fractions algorithm.
+\section{Shor's Algorithm}
+It is a quantum computer algorithm for integer factorization. On a quantum computer, to factor an integer N, Shor's algorithm runs in polynomial time (the time taken is polynomial in  $\log N$, the size of the integer given as input). The efficiency of Shor's algorithm is due to the efficiency of the quantum Fourier transform, and modular exponentiation by repeated squarings. \\
+If a quantum computer with a sufficient number of qubits could operate without succumbing to quantum noise and other quantum-decoherence phenomena, then Shor's algorithm could be used to break public-key cryptography schemes, such as the widely-used RSA scheme. RSA is based on the assumption that factoring large integers is computationally intractable. As far as is known, this assumption is valid for classical (non-quantum) computers; no classical algorithm is known that can factor integers in polynomial time. However, Shor's algorithm shows that factoring integers is efficient on an ideal quantum computer, so it may be feasible to defeat RSA by constructing a large quantum computer.\\
+\\
+\textbf{Problem: }\\
+Given an odd composite number $N$, find an integer $d$, strictly between 1 and N, that divides N. The aim of the algorithm is to find a square root b that is different from  1 and-1; such a b will lead to a factorization of N, as in other factoring algorithms.
+\\
+\textbf{Shor's Algorithm consists of two parts:}
+\begin{enumerate}
+\item Classical Part
+\item Quantum Part: Period Finding Subroutine
+\end{enumerate}
+\textbf{Classical Part:}
+\begin{enumerate}
+\item Pick a random number  $a<N$.
+\item Compute $\gcd(a,N)$, the greatest common divisor of $a$ and $N$. This may be done using the Euclidean algorithm.
+\item If $\gcd(a,N) \neq 1$, then this number is a nontrivial factor of $N$, so we are done.
+\item Otherwise, use the quantum period-finding subroutine (below) to find $r$, which denotes the period of the following function: $ f(x)=a^{x} \bmod {N}$ \\
+	 This is the order $r$ of $a$ in the group $({Z} _{N})^{\times }$, which is the smallest positive integer $r$ for which $f(x+r)=f(x)$, or $f(x+r)=a^{x+r}{\bmod {N}}\equiv a^{x}{\bmod {N}}$. By Euler's Theorem, $r$ divides $\varphi (N)$, where $\varphi$  denotes Euler's totient function.
+\item If $r$ is odd, then go back to step 1.
+\item If $a^{r/2}\equiv -1({\bmod {N}})$, then go back to step 1.
+\item Otherwise, at least one of $\gcd(a^{r/2}+1,N)$ and $\gcd(a^{r/2}-1,N)$ is a nontrivial factor of $N$, so we are done.
+\end{enumerate}
+\textbf{Quantum Part: Period Finding Subroutine}
+\begin{enumerate}
+\item $|0\rangle |1\rangle$, initial state\\
+\item $\to\frac{1}{\sqrt{2^t}}\sum_{j=0}^{2^t - 1} |j\rangle|1\rangle$, create superposition\\
+\item $\to\frac{1}{\sqrt{r2^t}}\sum_{s=0}^{r - 1} \sum_{j=0}^{2^t - 1}  e^{\frac{2\pi isj}{r}} |j\rangle|u_s\rangle$,  apply $U_{x,N}$\\
+\item $\to\frac{1}{\sqrt{r}}\sum_{s=0}^{r - 1}|s/r\rangle|u_s\rangle$, apply inverse fourier transform to first register\\
+\item $\to s/r$, measure first register\\
+\item $\to r$, apply continued fractions algorithm.
+\end{enumerate}
+\textbf{** The Qiskit implementation of Shor's Algorithm is present in the Appendix \ref{sa}.}
+
+%chapter-4
+\chapter{Quantum Error Correction}
+\newtheorem{thm1}{Theorem}[chapter]
+\newtheorem{defn1}[thm1]{Definition}
+A source transmits information to a user through a channel. The communication channel, unfortunately, is usually imperfect; i.e., the information might be corrupted by noises during transmission. To immunize information to noises, the sender adds redundancy within the information and follows an invertible encoding process to mix the redundancy and information. When the receiver obtains this mixture, it checks where errors are, corrects the errors as possible, and finally removes redundancy added by the sender. The above scheme of encoding and decoding is referred as \textbf{error-correcting codes}.
+\section{Overview of Classical Error Correction}
+\begin{defn1}
+\textbf{Binary Symmetric Channel}\\
+Suppose we wish to send a bit from one location to another through a noisy classical communications channel. The effect of the noise in the channel is to flip the bit being transmitted with probability p > 0, while with probability 1 - p the bit is transmitted without error. Such a channel is known as a binary symmetric channel.
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.50\textwidth]{bsc}
+\caption{Binary Symmetric Channel}
+\label{fig:bsc}
+\end{figure}
+\end{defn1}
+Let the set A consist of information bit strings. An encoding operator E maps A into a space C called \textbf{code}. The elements in the code C are called \textbf{codewords}. In the channel, a set of noise operators $N = \{N_0 = I, N_1, N2_, ...\}$ corrupts the codewords. In N, I is an identity which does nothing wrong to codewords. All the possible corrupted codewords are collected in a set $C'$. A decoding operator D at receiver recovers the received codewords in $C'$ back to the information strings of bits.
+\subsection{Repetiton Code}
+\begin{defn1}Encoding a bit by repeating it several times is called repetition code.\end{defn1}
+In the case of triplicating the information bit, we have, 
+\begin{equation*}A = \{0, 1\} \text{ and code } C = \{000, 111\}\end{equation*}. 
+The received codewords can be decoded by majority voting $D_{mv}$: decide 0 if the majority of the codeword is 0, otherwise decide 1.\\
+In the repetition code, we define $N_i$ as a noise operator that has probability p to flip the $i^th$ bit. If there is only one noise operator $N_1$ corrupting the codewords, i.e., $N = \{N0 = I, N_1\}$, the set C' of all possibly corrupted codewords is 
+\begin{equation*}C' = \{000, 100, 011, 111\}\end{equation*}
+Based on majority voting, the received codewords 000,100 are being mapped to 0 and 011, 111 to 1. This results in a perfect recovery of information. \\
+If we further add another noise operator $N_2$ affecting the second bit, so $N = \{N_0, N_1, N_2\}$. The corrupted code now becomes 
+\begin{equation*}C' = \{000, 010, 100, 110, 001, 011, 101, 111\}\end{equation*}
+Unfortunately, we this time cannot correct all the errors using majority voting, because 110 and 001 are misclassified as 1 and 0, respectively.
+\subsection{Hamming Code}
+\begin{defn1} A linear code is an error-correcting code for which any linear combination of codewords is also a codeword. \\  Linear code of length n and rank k is a linear subspace C with dimension k of the vector space ${F} _{q}^{n}$ where ${F} _{q}$ is the finite field with q elements. Such a code is called a \textbf{q-ary code}. If q = 2 or q = 3, the code is described as a binary code, or a ternary code respectively. The vectors in C are called codewords. The size of a code is the number of codewords and equals $q^k$.\end{defn1}
+The weight of a codeword is the number of its elements that are nonzero and the distance between two codewords is the Hamming distance between them, that is, the number of elements in which they differ. The distance d of the linear code is the minimum weight of its nonzero codewords, or equivalently, the minimum distance between distinct codewords. A linear code of length n, dimension k, and distance d is called an [n,k,d] code.
+
+\begin{defn1}\textbf{Redundant bits}\\
+Redundant bits are extra binary bits that are generated and added to the information-carrying bits of data transfer to ensure that no bits were lost during the data transfer. The number of redundant bits can be calculated using the following formula: 
+\begin{equation} 2^r \ge m + r + 1, \end{equation} where r = redundant bit, m = data bit.
+\end{defn1}
+Example, suppose the number of data bits is 7, then the number of redundant bits can be calculated using, $= 2^4 \ge 7 + 4 + 1$.\\
+Thus, the number of redundant bits= 4.
+\begin{defn1}\textbf{Parity bits}\\ A parity bit is a bit appended to a data of binary bits to ensure that the total number of 1’s in the data are even or odd. Parity bits are used for error detection. There are two types of parity bits:\begin{enumerate}
+\item\textbf{Even parity bit:}In the case of even parity, for a given set of bits, the number of 1’s are counted. If that count is odd, the parity bit value is set to 1, making the total count of occurrences of 1’s an even number. If the total number of 1’s in a given set of bits is already even, the parity bit’s value is 0.
+\item\textbf{Odd Parity bit:}In the case of odd parity, for a given set of bits, the number of 1’s are counted. If that count is even, the parity bit value is set to 1, making the total count of occurrences of 1’s an odd number. If the total number of 1’s in a given set of bits is already odd, the parity bit’s value is 0.\end{enumerate}\end{defn1}
+\textbf{General Algorithm of Hamming code:}
+The Hamming Code is simply the use of extra parity bits to allow the identification of an error.
+\begin{enumerate}
+\item Write the bit positions starting from 1 in binary form (1, 10, 11, 100, etc).
+\item All the bit positions that are a power of 2 are marked as parity bits (1, 2, 4, 8, etc).
+\item All the other bit positions are marked as data bits.
+\item Each data bit is included in a unique set of parity bits, as determined its bit position in binary form.\begin{enumerate}
+\item Parity bit 1 covers all the bits positions whose binary representation includes a 1 in the least significant position (1, 3, 5, 7, 9, 11, etc).
+\item Parity bit 2 covers all the bits positions whose binary representation includes a 1 in the second position from the least significant bit (2, 3, 6, 7, 10, 11, etc).
+\item Parity bit 4 covers all the bits positions whose binary representation includes a 1 in the third position from the least significant bit (4–7, 12–15, 20–23, etc).
+\item Parity bit 8 covers all the bits positions whose binary representation includes a 1 in the fourth position from the least significant bit bits (8–15, 24–31, 40–47, etc).
+\item In general each parity bit covers all bits where the bitwise AND of the parity position and the bit position is non-zero.\end{enumerate}
+\item Since we check for even parity set a parity bit to 1 if the total number of ones in the positions it checks is odd.
+\item Set a parity bit to 0 if the total number of ones in the positions it checks is even.
+\end{enumerate}
+\section{Quantum Error Correction}
+\subsection{Overview}
+Every error correction scheme has 3 parts - Message Encoding, Error Detection, Error Correction. Consider the following situation:\\
+Alice wants to send Bob a message. We can assume the message to be composed of bits (qubits in case of QEC). In real world the communication channel (air, wire) is noisy. Physical factors tend to corrupt the bits. Bob receives a corrupted or original message, but he does not know. How can Bob recover the original message? It is definitely not possible if the message was n bits and Alice sends exactly n bits. However, if Alice sends extra bits, Bob may be able to recover the message. How? Consider Alice wants to send a single bit 0 to Bob. Suppose we are assured that only a single bit error can occur during transmission. If Alice sends 000 as message. Then Bob can receive one of the following:
+\begin{equation*}
+\begin{split}
+000: \text{no error}\\	
+100: \text{error on } 1^{st} \text{bit}\\
+010: \text{error on } 2^{nd} \text{bit}\\
+001: \text{error on } 3^{rd} \text{bit}
+\end{split}
+\end{equation*}
+On receiving the message, Bob simply takes the majority (max of 0,1) in order to get the original message (in this case 0). Similarly, if Alice wished to send 1 she would instead send 111, and Bob could decode the message appropriately. This simple idea is exploited in Repetition codes. The key idea in any kind of error correction scheme is to append “sufficient” number of redundant bits to the message.\\
+Now, suppose Alice wants to send Bob qubits. Noise in the channel corrupts qubits. How does Bob recover the original qubits?  To protect quantum states against the effects of noise we would like to develop quantum error-correcting codes based upon similar principles. However,there are some important differences between classical information and quantum information that require new ideas to be introduced to make such quantum error-correcting codes possible. In particular, we have the following difficulties to deal with:
+\begin{enumerate}
+\item \textbf{No cloning}: One might try to implement the repetition code quantum mechanically by duplicating the quantum state three or more times. This is forbidden by the no-cloning theorem. Even if cloning were possible, it would not be possible to measure and compare the three quantum states output from the channel.
+\item \textbf{Errors are continuous}: A continuum of different errors may occur on a single qubit. Determining which error occurred in order to correct it would appear to require infinite precision, and therefore infinite resources.
+\item \textbf{Measurement destroys quantum information}: In classical error-correction we observe the output from the channel and decide what decoding procedure to adopt. Observation in quantum mechanics generally destroys the quantum state under observation and makes recovery impossible.
+\end{enumerate}
+Therefore, we implement Quantum Error Correcting Codes as discussed in the further sections.
+\subsection{Three Qubit Flip Code}
+Suppose we send qubits through a channel which leaves the qubits untouched with probability 1-p, and flips the qubits with probability p. That is, with probability p the state $|\psi\rangle$ is taken to the state $X|\psi\rangle$, where X is the usual Pauli sigma x operator, or bit flip operator. This channel is called the bit flip channel.
+Suppose we encode the single qubit state $a|0\rangle+b|1\rangle$ in three qubits as $a|000\rangle+b|111\rangle$. A convenient way to write this encoding is
+\begin{equation}
+\begin{split}
+|0\rangle \to |0_L\rangle \equiv |000\rangle\\
+|1\rangle \to |1_L\rangle \equiv |111\rangle
+\end{split}
+\end{equation}
+where it is understood that superpositions of basis states are taken to corresponding superpositions of encoded states. The notation $|0_L\rangle$ and $|1_L\rangle$ indicates that these are the logical $|0\rangle$ and logical $|1\rangle$ states, not the physical zero and one states. The circuit for the encoding is shown below:
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.40\textwidth]{bitflip}
+\caption{Encoding Circuit for Three Qubit Flip Code}
+\label{fig:bitflip}
+\end{figure}
+\textbf{** The Qiskit implementation of Three Qubit Bit Flip Code is present in the Appendix \ref{bitflip}.}
+\\
+Suppose the initial state $a|0\rangle + b|1\rangle$ has been perfectly encoded as $a|000\rangle+b|111\rangle$. Each of the three qubits is passed through an independent copy of the bit flip channel. Suppose a bit flip occurred on one or fewer of the qubits.\\
+\textbf{Error Detection:}\\
+Assume that only a single qubit flip can occur during transmission, Bob will receive one of these 4 possible states:
+\begin{equation*}
+\begin{split}
+	\phi_0 \equiv a|000\rangle+b|111\rangle	\text{No error}\\
+	\phi_1 \equiv a|100\rangle+b|011\rangle 	\text{1st qubit flip}\\
+	\phi_2 \equiv a|010\rangle+b|101\rangle 	\text{2nd qubit flip}\\
+	\phi_3 \equiv a|001\rangle+b|110\rangle	\text{3rd qubit flip}
+\end{split}
+\end{equation*}
+\textbf{Syndrome Measurement using Projection Measurement:}
+Let us define the following 4 Projection operators:
+\begin{equation*}
+\begin{split}
+	P_0 \equiv |000\rangle \langle000| + |111\rangle \langle111| 	\text{No error}\\
+	P_1 \equiv |100\rangle \langle100| + |011\rangle \langle011|	\text{1st qubit flip}\\
+	P_2 \equiv |010\rangle \langle010| + |101\rangle \langle101|	\text{2nd qubit flip}\\
+	P_3 \equiv |001\rangle \langle001| + |110\rangle \langle110|	\text{3rd qubit flip}
+\end{split}
+\end{equation*}
+Define measurement $M = 0P_0 + 1P_1 + 2P_2 + 3P_3$. $\{P_0, P_1, P_2, P_3\}$ forms a valid measurement. Observe that $M\phi_i = i,$   where i = 0 . . . 3, since $P_i|\phi_j\rangle = 1 \text{ if } i = j \text{, }0 \text{ otherwise}$
+This detects which qubit was flipped during the transmission. Note that we chose our projections for measurement cleverly so that the state before and after the measurement is same $\phi_i =|P_i\phi_i\rangle/||P_i\phi_i||^2$ . In this way the third challenge is taken care of by measuring in superposition.\\ \\
+\textbf{Another way of measuring Syndrome:}\\
+\begin{defn1}\textbf{Pauli Group}\\
+A \textbf{Pauli operator} on N qubits has the form $cO_1O_2 ... O_N$ , where each $O_i\epsilon\{I, X, Y, Z \}$ and $c = i^{\{0,1,2,3\}} \epsilon \{\pm 1, \pm i\}$ is the overall phase of the operator.\\
+This operator takes an N-qubit state $|l_1l_2...l_N\rangle to cO_1|l_1\rangle \otimes O_2|l_2\rangle\otimes...\otimes O_N |l_N\rangle$. For instance, $XIZ(|000\rangle+|111\rangle) = X|0\rangle\otimes I|0\rangle\otimes Z|0\rangle\otimes+X|1\rangle\otimes I|1\rangle\otimes Z|1\rangle \equiv |100\rangle - |011\rangle$. \\
+Pauli operators form a group together with the overall phase factor c. Let $P_1 = \{\pm1, \pm i\} \times \{I, X, Z, Y \}$ be the \textbf{single qubit Pauli group}. Then the N-fold tensor product of $P_1$ forms an \textbf{N-qubit Pauli group} 
+\begin{equation}P_N = \{\pm1, \pm i\} \times \{I, X, Z, Y \}^{\otimes N} \end{equation}
+The elements of $P_N$ either commute or anti-commute, i.e., for any two operators $E, F \epsilon P_N$ , we define \begin{equation}E \cdot F = \prod_{j=1}^{N} E_j \cdot F_j \end{equation}
+where $E_j\cdot F_j = +1 \text{ if } E_jF_j = F_jE_j \text{ and } E_j \cdot F_j = -1 \text{ if } E_jF_j = -E_jF_j$. Hence, two Pauli operators either commute $(E \cdot F = +1)$ or anti-commute $(E \cdot F = -1)$.
+\end{defn1}
+Instead of measuring the four projectors,$P_1,P_2,P_3,P_4$ we performed two measurements, the first of the observable $Z_1Z_2$ (that is, $Z \otimes Z \otimes I$), and the second of the observable $Z_2Z_3$. Each of these observables has eigenvalues $\pm1$, so each measurement provides a single bit of information, for a total of two bits of information - four possible syndromes, just as in the earlier description of projection measurement. \\
+The first measurement, of $Z_1Z_2$, can be thought of as comparing the first and second qubits to see if they are the same, then this can be thought of as comparing  the values of the first and second qubits, giving +1 if they are the same, and -1 if they are different. Similarly, measuring $Z_2Z_3$ compares the values of the second and third qubits, giving +1 if they are the same, and -1 if they are different. \\
+\textbf{Combining the above two measurement results we can determine whether a bit flip occurred on one of the qubits or not, and if so, which one as following:} 
+\begin{enumerate}
+\item if both measurement results give +1 then with high probability \textbf{no bit flip has occurred}; 
+\item if measuring $Z_1Z_2$ gives +1 and measuring $Z_2Z_3$ gives -1 then with high probability just the \textbf{third qubit flipped}; 
+\item if measuring $Z_1Z_2$ gives -1 and measuring $Z_2Z_3$ gives +1 then with high probability just the \textbf{first qubit flipped};
+\item and finally if both measurements give -1 then with high probability just the \textbf{second qubit flipped}.
+\end{enumerate}
+\textbf{Error Recovery:}\\
+	 No error (0) $\to$ Do nothing.\\
+	1st qubit flip (1) $\to$ Flip 1st qubit again.\\
+	2nd qubit flip (2) $\to$ Flip 2nd qubit again.\\
+	3rd qubit flip (3) $\to$  Flip 3rd qubit again. \\
+\subsection{Three Qubit Phase Flip Code}
+In this error model the qubit is left alone with probability 1-p, and with probability p the relative phase of the $|0\rangle$ and $|1\rangle$ states are flipped. More precisely, the phase flip operator Z is applied to the qubit with probability p> 0, so the state $a|0\rangle+b|1\rangle$ is taken to the state $a|0\rangle-b|1\rangle$ under the phase flip. Suppose we work in the qubit basis $|+\rangle \equiv (|0\rangle + |1\rangle)/\sqrt{2}, |-\rangle \equiv (|0\rangle - |1\rangle)/\sqrt{2}$. With respect to this basis the operator Z takes $|+\rangle$ to $|-\rangle$ and vice versa, that is, it acts just like a bit flip with respect to the labels + and -. This suggests using the states $|0_L\rangle \equiv |+++\rangle$ and $|1_L\rangle \equiv | - - -\rangle$ as logical zero and one states for protection against phase flip errors. All the operations needed for error-correction - encoding, error-detection, and recovery - are performed just as for the bit flip channel, but with respect to the $|+\rangle, |-\rangle$ basis instead of the $|0\rangle, |1\rangle$ basis. To accomplish this basis change we simply apply the Hadamard gate and its inverse (also the Hadamard gate) at appropriate points in the procedure, since the Hadamard gate accomplishes the change back and forth between the $|0\rangle, |1\rangle$ basis and the $|+\rangle, |-\rangle$ basis.\\
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.40\textwidth]{phaseflip}
+\caption{Encoding Circuit for Three Qubit Phase Flip Code}
+\label{fig:phaseflip}
+\end{figure}
+\textbf{** The Qiskit implementation of Three Qubit Phase Flip Code is present in the Appendix \ref{phaseflip}.}
+
+Append ancilla bits: $a |0\rangle + b |1\rangle \to a |000\rangle + b |111\rangle$\\
+Apply Hadamard: $a |000\rangle + b |111\rangle \to a |+ + +\rangle + b |- - -\rangle$\\
+Apply bit flip algorithm to detect and correct a bit flip error in the $|+\rangle, |-\rangle$ basis.\\
+Apply Hadamard again to recover original message in $|0\rangle, |1\rangle$ basis. \\
+\\
+\\
+\textbf{Error Detection:}\\
+It is achieved by applying the same projective measurements as Three Qubit Bit Flip Code, but conjugated by Hadamard gates: $P_j \to {P'}_j \equiv H^{\otimes 3}P_jH^{\otimes 3}$. Equivalently, syndrome measurement may be performed by measuring the observables $H^{\otimes 3}Z_1Z_2H^{\otimes 3} = X_1X_2$ and $H^{\otimes 3}Z_2Z_3H^{\otimes 3} = X_2X_3$.\\
+\textbf{Combining the above two measurement results we can determine whether a phase flip occurred on one of the qubits or not, and if so, which one as following:} 
+\begin{enumerate}
+\item if both measurement results give +1 then with high probability \textbf{no phase flip has occurred}; 
+\item if measuring $X_1X_2$ gives +1 and measuring $X_2X_3$ gives -1 then with high probability just the \textbf{third qubit's phase flipped}; 
+\item if measuring $X_1X_2$ gives -1 and measuring $X_2X_3$ gives +1 then with high probability just the \textbf{first qubit's phase flipped};
+\item and finally if both measurements give -1 then with high probability just the \textbf{second qubit's phase flipped}.
+\end{enumerate}
+
+\subsection{Shor Code}
+There is a simple quantum code which can protect against the effects of an arbitrary error on a single qubit. The code is known as the Shor code, after its inventor. The code is a combination of the three-qubit phase flip and bit flip codes. We first encode the qubit using the phase flip code: $|0\rangle \to |+++\rangle, |1\rangle \to |- - -\rangle$. Next, we encode each of these qubits using the three-qubit bit flip code: $|+\rangle$ is encoded as $(|000\rangle + |111\rangle)/\sqrt{2}$ and $|-\rangle$ is encoded as $(|000\rangle - |111\rangle)/\sqrt{2}$. The result is a nine-qubit code, with codewords given by: 
+\begin{equation}
+\begin{split}
+|0\rangle \to |0_L\rangle \equiv \frac{(|000\rangle + |111\rangle)(|000\rangle + |111\rangle)(|000\rangle + |111\rangle)}{2\sqrt{2}}\\
+|1\rangle \to |1_L\rangle \equiv \frac{(|000\rangle - |111\rangle)(|000\rangle - |111\rangle)(|000\rangle - |111\rangle)}{2\sqrt{2}}
+\end{split}
+\end{equation}
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.40\textwidth]{shorcode}
+\caption{Encoding Circuit for Shor Code}
+\label{fig:shorcode}
+\end{figure}
+\textbf{** The Qiskit implementation of Shor Code is present in the Appendix \ref{shor}.}\\
+\\ \textbf{Bit Flip Errors:}\\
+Without any loss of generality, we may assume that the bit-flip error occurs on the first qubit. To detect the bit-flip error, we apply operator $Z_1Z_2$. Since the qubits are different we get measurement output -1. Next we apply $Z_2Z_3$, and obtain 1 as measurement value since the qubits are same. From these we determine that the first qubit has flipped and correct it accordingly. We may apply similar observables for detecting bit flip in any of the 9 qubits. 
+\\
+\\
+\textbf{Phase Flip Errors:}\\
+Let us again assume that the phase flip occurs on the first qubit. We would like to detect and correct this error. We note that a phase flip on any of the first three qubits has the same effect on the codeword; all of them cause a relative phase change in the first triplet of qubits. We can detect this phase flip by applying observables $X_1X_2X_3X_4X_5X_6$ and $X_4X_5X_6X_7X_8X_9$. In our case, the first observable will measure -1 as the sign of the first two triplets are different and the second one will measure 1 as the signs of the last two triplets are same. From this, we determine that the first triplet has undergone a phase flip (indeed it can be any of the first 3 qubits that underwent a phase flip) and correct it accordingly. \\
+\\
+\textbf{Combined Bit and Phase Flip Errors:} \\
+In the case of a combined error on the first qubit, $Z_1X_1 \equiv -Y_1$ is applied on the qubit. From the above discussion it is clear that in this case, the bit flip correction procedure will detect and correct the bit flip on the first qubit and the phase flip correction procedure will detect and correct phase flip on the first triplet of qubits. Thus, the Shor code also corrects a combination of bit and phase flip error as long as they are on a single qubit. We will now show how the Shor code manages to correct any general quantum error simply by correcting bit and phase flips. The basic idea lies in the fact that the any general quantum error will always be a unitary transformation of the codeword. As such we can express the error E as: \\ 
+			\begin{equation}E = e_1I + e_2X + e_3Y + e_4Z\end{equation}
+This is because $\{I, X, Y, Z\}$ forms a basis for all $2 \times 2$ unitary matrices. We also note that while doing error detection and correction our error syndromes are simply the above case: I - no error; X - bit flip; Z - phase flip; Y - bit and phase flip. Now even though a general error is a superposition of these four errors, when we measure the error syndrome we effectively force the error to collapse into one of these errors and that is the one we measure and subsequently correct. This is the reason any general error on a qubit can be corrected simply by correcting bit and phase flip errors. 
+
+\begin{appendices} 
+\chapter{Python and Qiskit(IBM simulator) Framework Implementations}
+\newpage
+\includepdf[scale=0.8,pages=1,pagecommand=\section{Basics of Linear Algebra and Quantum Gates}\label{qg}, linktodoc=true]{opandgates.pdf}
+\includepdf[scale=0.8,pages=2-,pagecommand={}]{opandgates.pdf} 
+\includepdf[scale=0.8,pages=1,pagecommand=\section{Conversion of One basis to another}\label{bconv}]{basisconversion.pdf}
+\includepdf[scale=0.8,pages=2-,pagecommand={}]{basisconversion.pdf}
+\includepdf[scale=0.8,pages=1,pagecommand=\section{Bell State}\label{bellstate}]{bellstatepy.pdf}
+\includepdf[scale=0.8,pages=2-,pagecommand={}]{bellstatepy.pdf}
+\textbf{Qiskit Implementation of Bell State} \\
+\includegraphics[width=0.50\textwidth]{circuit} \\
+\includegraphics[width=1.15\textwidth]{dw0c0fg5h}
+\includepdf[scale=0.8,pages=1,pagecommand=\section{Teleportation}\label{teleportation}]{teleportationpy.pdf}
+\includepdf[scale=0.8,pages=2-,pagecommand={}]{teleportationpy.pdf}
+\includepdf[scale=0.8,pages=1,pagecommand=\section{Quantum Fourier Transform}\label{qft}]{QFTpy.pdf}
+\includepdf[scale=0.8,pages=2-,pagecommand={}]{QFTpy.pdf}
+\includepdf[scale=0.8,pages=1,pagecommand=\section{Deutsch-Jozsa Algorithm}\label{dja}]{Deutsch-JozsaAlgoQiskit.pdf}
+\includepdf[scale=0.8,pages=2-,pagecommand={}]{Deutsch-JozsaAlgoQiskit.pdf}
+\includepdf[scale=0.8,pages=1,pagecommand=\section{Phase Estimation}\label{pe}]{phaseestimationpy.pdf}
+\includepdf[scale=0.8,pages=2-,pagecommand={}]{phaseestimationpy.pdf}
+\includepdf[scale=0.8,pages=1,pagecommand=\section{Shor's Algorithm}\label{sa}]{shorsalgo.pdf}
+\includepdf[scale=0.8,pages=2-,pagecommand={}]{shorsalgo.pdf}\includepdf[scale=0.8,pages=1,pagecommand=\section{Three Qubit Bit Flip Code}\label{bitflip}]{ThreeQubitBitFlip.pdf}
+\includepdf[scale=0.8,pages=2-,pagecommand={}]{ThreeQubitBitFlip.pdf}
+\includepdf[scale=0.8,pages=1,pagecommand=\section{Three Qubit Phase Flip Code}\label{phaseflip}]{ThreeQubitPhaseFlip.pdf}
+\includepdf[scale=0.8,pages=2-,pagecommand={}]{ThreeQubitPhaseFlip.pdf}
+\includepdf[scale=0.8,pages=1,pagecommand=\section{Shor's Code}\label{shor}]{ShorCodepy.pdf}
+\includepdf[scale=0.8,pages=2-,pagecommand={}]{ShorCodepy.pdf}
+\end{appendices}
+
+\chapter*{Conclusion}
+I was able to learn the basics of Quantum Computing and implement the same. With that being said, the scope of Quantum Computing extends to great boundaries, with this training, in future, I would like to extend this learning in areas such as machine learning and artificial intelligence for future projects.
+\begin{thebibliography}{9}
+\bibitem{drdo} DRDO website,
+\textit{https://www.drdo.gov.in/}
+\bibitem{qcqi} 
+Michael A. Nielsen \& Isaac L. Chuang 
+\textit{Quantum Computation and Quantum Information, 10th Anniversary edition, Cambridge University Press}. 
+\bibitem{la}
+Kenneth Hoffman 
+\textit{Linear Algebra,Second Edition, Prentice-Hall, Inc.}
+\bibitem{la1}
+Howard Anton and Chris Rorres
+\textit{Elementary Linear Algebra: applications version, 11th edition, WILEY}
+\bibitem{ibm}
+IBM simulators,
+\textit{https://quantum-computing.ibm.com/}
+\end{thebibliography}
+
+\end{document}
